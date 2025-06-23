@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/victorlabs/static/css/main.8c1a82fd.css",
+    "main.js": "/victorlabs/static/js/main.feaa0c58.js",
+    "static/js/453.56f46472.chunk.js": "/victorlabs/static/js/453.56f46472.chunk.js",
+    "index.html": "/victorlabs/index.html",
+    "main.8c1a82fd.css.map": "/victorlabs/static/css/main.8c1a82fd.css.map",
+    "main.feaa0c58.js.map": "/victorlabs/static/js/main.feaa0c58.js.map",
+    "453.56f46472.chunk.js.map": "/victorlabs/static/js/453.56f46472.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8c1a82fd.css",
+    "static/js/main.feaa0c58.js"
+  ]
+}
