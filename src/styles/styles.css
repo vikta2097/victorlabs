@@ -1,0 +1,204 @@
+/* Base styles */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f0f4f8;
+  color: #0d1a3a; /* Dark Navy */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.page {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 50, 0.1);
+}
+
+h1, h2 {
+  color: #003366; /* Navy Blue */
+}
+
+h3 {
+  color: #004aad; /* Royal Blue */
+  margin-top: 1.5rem;
+}
+
+p {
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+ul {
+  list-style: disc inside;
+  padding-left: 0;
+  color: #002244;
+}
+
+li {
+  margin: 0.6rem 0;
+}
+
+/* Links and buttons */
+
+a {
+  color: #005bbb; /* Sky Blue */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.btn-link {
+  font-weight: bold;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+  color: #003366;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #002244;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #004aad;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #0077ff; /* Sky Blue highlight */
+  outline: none;
+}
+
+.btn-submit {
+  background-color: #004aad; /* Royal Blue */
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #003366; /* Navy */
+}
+
+.thank-you {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #004aad;
+  margin-top: 1.5rem;
+}
+
+/* Projects styling */
+
+.project {
+  margin-bottom: 1.8rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #d0dfff;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 600px) {
+  .page {
+    margin: 1.5rem;
+    padding: 1rem;
+  }
+
+  .btn-link {
+    display: block;
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+
+  .btn-submit {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}
+
+/* Optional: Flexible layout for project lists (if used) */
+
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+
+.featured-services,
+.featured-projects {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid #d0dfff;
+}
+
+.featured-services ul,
+.featured-projects ul {
+  list-style-type: disc;
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.featured-services li,
+.featured-projects li {
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.social-icons a {
+  font-size: 2rem;
+  color: #004aad; /* Royal Blue */
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #002244; /* Darker Navy */
+}
