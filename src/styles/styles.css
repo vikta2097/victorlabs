@@ -202,3 +202,11 @@ a:hover {
 .social-icons a:hover {
   color: #002244; /* Darker Navy */
 }
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
