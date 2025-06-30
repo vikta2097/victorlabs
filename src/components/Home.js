@@ -34,7 +34,13 @@ export default function Home() {
         <Link to="/projects" className="btn-link">View All Projects</Link>
       </div>
 
+      {/* Existing Contact Button */}
       <Link to="/contact" className="btn-link">Contact Me</Link>
+
+      {/* New About Us Button */}
+      <Link to="/about" className="btn-link" style={{ marginTop: '1rem', display: 'inline-block' }}>
+        About Me
+      </Link>
     </section>
   );
 }
