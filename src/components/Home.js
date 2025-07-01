@@ -5,7 +5,7 @@ import '../styles/styles.css';
 export default function Home() {
   return (
     <section className="page home">
-      <h1>Welcome to Vikta Mwangi’s Software Development</h1>
+      <h1>Welcome to victorlabs Software Development</h1>
       <p>
         Hi there! I’m Vikta Mwangi, a passionate and dedicated software developer 
         with a love for building smart, reliable, and modern software systems and websites.
