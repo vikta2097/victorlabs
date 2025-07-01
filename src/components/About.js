@@ -1,11 +1,12 @@
 import React from 'react';
 import '../styles/styles.css';
-<img src="../public/profile.jpg" alt="Vikta Mwangi" className="profile-image" />
+<img src="/profile.jpg" alt="Vikta Mwangi" className="profile-image" />
 
 
 export default function About() {
   return (
     <section className="page about">
+      <img src="/profile.jpg" alt="Vikta Mwangi" className="profile-image" />
       <h1>About Me</h1>
       <p>Welcome to my portfolio! I’m <strong>Vikta Mwangi</strong>, a passionate and driven software developer with experience in building modern, user-friendly web applications.</p>
 
