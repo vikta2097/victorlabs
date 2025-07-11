@@ -497,6 +497,7 @@
 
 
 /* Services Section Styling */
+/* ===== Services Section ===== */
 .services-section {
   padding: 40px 20px;
   background-color: #f9fbfd;
@@ -528,14 +529,17 @@
   margin: 0 auto;
 }
 
+/* ===== Service Card ===== */
 .service-card {
   background: #fff;
   border-radius: 16px;
   padding: 25px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease-in-out;
   text-align: center;
   border: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
 }
 
 .service-card:hover {
@@ -544,6 +548,13 @@
   box-shadow: 0 8px 20px rgba(0, 123, 255, 0.15);
 }
 
+.service-card.active {
+  transform: scale(1.05);
+  background-color: #eaf4ff;
+  z-index: 2;
+}
+
+/* ===== Icon and Title ===== */
 .service-icon {
   font-size: 2rem;
   margin-bottom: 10px;
@@ -552,14 +563,71 @@
 
 .service-title {
   font-size: 1.1rem;
+  font-weight: 600;
   color: #333;
+  margin-bottom: 5px;
 }
 
-/* Fade-in animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ===== Description Area ===== */
+.service-expanded {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #444;
+  animation: fadeIn 0.3s ease-in-out;
 }
+
+.service-description {
+  margin-top: 8px;
+  line-height: 1.5;
+  text-align: left;
+  padding-top: 5px;
+}
+
+/* ===== Close Button ===== */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s;
+  z-index: 10;
+}
+
+.close-button:hover {
+  color: #f00;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .service-description {
+    font-size: 0.9rem;
+  }
+  }
+
 
 /* Contact Page Styling */
 .contact {
