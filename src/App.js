@@ -4,6 +4,7 @@ import About from './components/About';
 import Services from './components/Services';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
+import TermsAndConditions from './components/TermsAndConditions';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/services" element={<Services />} />
       <Route path="/projects" element={<Projects />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/terms" element={<TermsAndConditions />} />
     </Routes>
   );
 }

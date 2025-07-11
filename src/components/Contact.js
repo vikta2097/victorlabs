@@ -56,16 +56,19 @@ export default function Contact() {
         <>
           <p className="thank-you">Thank you for reaching out! I will get back to you soon.</p>
           <div className="social-icons">
-            <a href="mailto:thigamwangi2027@gmail.com" aria-label="Email" target="_blank" rel="noopener noreferrer">
+            <a href="mailto:thigamwangi2027@gmail.com" aria-label="Email">
               <FaEnvelope />
             </a>
             <a href="https://www.facebook.com/vikta.mwangi.2025?ref=profile" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
               <FaFacebook />
             </a>
-            <a href="https://www.linkedin.com/in/yourprofile" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/thiga-mwangi-bb2a89328" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
               <FaLinkedin />
             </a>
           </div>
+          <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+            Or call me directly at <a href="tel:+254759205319">+254 759205319</a>
+          </p>
         </>
       ) : (
         <>
@@ -104,18 +107,21 @@ export default function Contact() {
           </form>
 
           <div className="social-icons" style={{ marginTop: '2rem' }}>
-            <a href="mailto:thigamwangi2027@gmail.com" aria-label="Email" target="_blank" rel="noopener noreferrer">
+            <a href="mailto:thigamwangi2027@gmail.com" aria-label="Email">
               <FaEnvelope />
             </a>
             <a href="https://www.facebook.com/vikta.mwangi.2025?ref=profile" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
               <FaFacebook />
             </a>
-            <a href="https://www.linkedin.com/in/yourprofile" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/thiga-mwangi-bb2a89328" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
               <FaLinkedin />
             </a>
           </div>
+          <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+            Or call me directly at <a href="tel:+254759205319">+254 759205319</a>
+          </p>
         </>
       )}
     </section>
   );
-      }
+}

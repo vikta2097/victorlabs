@@ -4,43 +4,68 @@ import '../styles/styles.css';
 
 export default function Home() {
   return (
-    <section className="page home">
-      <h1>Welcome to victorlabs Software Development</h1>
-      <p>
-        Hi there! I’m Vikta Mwangi, a passionate and dedicated software developer 
-        with a love for building smart, reliable, and modern software systems and websites.
-      </p>
-      <p>
-        Whether you’re starting out or need to improve your current system, I’m here to help.
-      </p>
-
-      <div className="featured-services">
-        <h2>Featured Services</h2>
-        <ul>
-          <li>Custom Software Development</li>
-          <li>Website Development</li>
-          <li>API Integration</li>
+    <>
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="logo"><Link to="/">VictorLabs</Link></div>
+        <input type="checkbox" id="menu-toggle" />
+        <label htmlFor="menu-toggle" className="menu-icon">&#9776;</label>
+        <ul className="nav-links">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/services">Services</Link></li>
+          <li><Link to="/projects">Projects</Link></li>
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
         </ul>
-        <Link to="/services" className="btn-link">View All Services</Link>
-      </div>
+      </nav>
 
-      <div className="featured-projects">
-        <h2>Recent Projects</h2>
-        <ul>
-          <li><Link to="/projects#ems">Employee Management System</Link></li>
-          <li><Link to="/projects#portfolio">Personal Portfolio Website</Link></li>
-          <li><Link to="/projects#ecommerce">E-commerce Platform</Link></li>
-        </ul>
-        <Link to="/projects" className="btn-link">View All Projects</Link>
-      </div>
+      {/* Hero Section */}
+      <section className="hero">
+        <h1>Hello, I'm Vikta Mwangi</h1>
+        <p>
+          Passionate software developer building modern, reliable software and websites.
+          Welcome to my portfolio!
+        </p>
+      </section>
 
-      {/* Existing Contact Button */}
-      <Link to="/contact" className="btn-link">Contact Me</Link>
+      {/* Floating Cards Section */}
+      <section className="floating-cards">
+        <div className="card">
+          <h2>Services</h2>
+          <p>Custom software development, website building, API integration, and more.</p>
+          <Link to="/services" className="btn-link">Explore Services</Link>
+        </div>
 
-      {/* New About Us Button */}
-      <Link to="/about" className="btn-link" style={{ marginTop: '1rem', display: 'inline-block' }}>
-        About Me
-      </Link>
-    </section>
+        <div className="card">
+          <h2>Projects</h2>
+          <p>See my recent work including employee management systems and e-commerce platforms.</p>
+          <Link to="/projects" className="btn-link">View Projects</Link>
+        </div>
+
+        <div className="card">
+          <h2>About Me</h2>
+          <p>A little about my background, skills, and what drives me as a developer.</p>
+          <Link to="/about" className="btn-link">Learn More</Link>
+        </div>
+
+        <div className="card">
+          <h2>Contact</h2>
+          <p>Get in touch to discuss your project or just say hello!</p>
+          <Link to="/contact" className="btn-link">Contact Me</Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <p>© {new Date().getFullYear()} VictorLabs. All rights reserved.</p>
+        <div className="footer-links">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <Link to="/contact">Contact</Link>
+          <Link to="/terms">Terms & Conditions</Link>
+           <a href="tel:+254712345678">Phone</a>
+        </div>
+      </footer>
+    </>
   );
 }
