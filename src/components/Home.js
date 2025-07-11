@@ -16,7 +16,10 @@ export default function Home() {
           <li><Link to="/projects">Projects</Link></li>
           <li><Link to="/about">About</Link></li>
           <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/privacy">Privacy Policy</Link></li>  {/* Added this */}
+          <li><Link to="/terms">Terms & Conditions</Link></li> {/* Optional here */}
         </ul>
+
       </nav>
 
       {/* Hero Section */}
@@ -56,16 +59,18 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="footer">
+     <footer className="footer">
         <p>© {new Date().getFullYear()} VictorLabs. All rights reserved.</p>
         <div className="footer-links">
           <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <Link to="/contact">Contact</Link>
           <Link to="/terms">Terms & Conditions</Link>
-           <a href="tel:+254712345678">Phone</a>
+          <Link to="/privacy">Privacy Policy</Link>  {/* Added this */}
+          <a href="tel:+254712345678">Phone</a>
         </div>
-      </footer>
+    </footer>
+
     </>
   );
 }

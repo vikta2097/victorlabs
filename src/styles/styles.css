@@ -712,3 +712,54 @@
   color: #444;
   margin-bottom: 0.5rem;
 }
+
+
+.page.privacy-policy {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background-color: #f9faff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  color: #222;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+.page.privacy-policy h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #004aad; /* Your brand blue */
+  text-align: center;
+}
+
+.page.privacy-policy h2 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #0066cc;
+  border-bottom: 2px solid #e0e7ff;
+  padding-bottom: 0.3rem;
+}
+
+.page.privacy-policy p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.page.privacy-policy a {
+  color: #004aad;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.page.privacy-policy a:hover {
+  color: #002766;
+}
+
+@media (max-width: 600px) {
+  .page.privacy-policy {
+    padding: 1rem 1rem;
+    margin: 1rem;
+  }
+}
