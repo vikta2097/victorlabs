@@ -4,14 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
-const TRACKING_ID = 'G-BZ5K43PNZS'; // Your Google Analytics measurement ID
+const TRACKING_ID = 'G-BZ5K43PNZS'; // Your GA4 tracking ID
 
 function Root() {
   useEffect(() => {
     ReactGA.initialize(TRACKING_ID);
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
   }, []);
 
   return (
