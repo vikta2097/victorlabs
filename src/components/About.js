@@ -1,51 +1,53 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/styles.css';
 
 export default function About() {
+  const aboutRef = useRef(null);
+
+  useEffect(() => {
+    if (aboutRef.current) {
+      aboutRef.current.style.opacity = 1; // Already handled by CSS animation, but can trigger here if needed
+    }
+  }, []);
+
   return (
-    <section className="page about">
+    <section className="page about" ref={aboutRef}>
       <img src="/victorlabslogo.png" alt="Vikta Mwangi" className="profile-image" />
 
       <h1>About Me</h1>
 
       <p>
         Welcome to my portfolio! I’m <strong>Vikta Mwangi</strong>, a passionate and detail-oriented software developer
-        with a strong commitment to delivering high-quality, scalable, and maintainable web applications.
+        committed to delivering high-quality, scalable, and maintainable web applications.
       </p>
 
       <p>
-        With a solid background in both frontend and backend development, I specialize in building responsive React-based interfaces,
-        designing robust Node.js backend systems, and managing efficient MySQL databases. My goal is to bridge the gap between
-        business needs and technology through clean, user-friendly solutions.
+        With expertise in building responsive React frontends, robust Node.js backends, and efficient MySQL databases,
+        I create digital solutions that bridge business needs with technology.
       </p>
 
       <h2>My Mission</h2>
       <p>
-        I strive to empower businesses and individuals by crafting digital solutions that improve efficiency, enhance user experience,
-        and drive innovation. I believe technology should be accessible, reliable, and tailored to solve real-world challenges.
+        I empower businesses by crafting innovative, reliable, and user-friendly digital products that enhance experiences and drive growth.
       </p>
 
       <h2>Professional Background</h2>
       <p>
-        Over the years, I have contributed to diverse projects ranging from comprehensive Employee Management Systems to seamless
-        Contact Form integrations using third-party services like EmailJS. These experiences have sharpened my ability to adapt and
-        apply best practices in software development.
+        I have worked on diverse projects including Employee Management Systems and seamless Contact Form integrations using EmailJS,
+        constantly applying best practices in software development.
       </p>
 
       <p>
-        I enjoy collaborating with cross-functional teams, learning emerging technologies, and continuously honing my craft to stay
-        at the forefront of the software industry.
+        Collaboration and continuous learning are central to my approach, keeping me at the forefront of the evolving tech landscape.
       </p>
 
       <h2>Outside of Coding</h2>
       <p>
-        When I’m not writing code, I’m passionate about exploring new tech trends, participating in developer communities, and
-        finding innovative ways to solve problems creatively.
+        When I’m not coding, I enjoy exploring new technologies, engaging with developer communities, and solving challenges creatively.
       </p>
 
       <p>
-        Thank you for taking the time to learn more about me. Feel free to explore my projects and reach out if you’re interested
-        in working together or have any questions.
+        Thank you for visiting! Feel free to explore my projects and reach out for collaboration or questions.
       </p>
     </section>
   );
