@@ -67,7 +67,7 @@ export default function Home() {
           <Link to="/contact">Contact</Link>
           <Link to="/terms">Terms & Conditions</Link>
           <Link to="/privacy">Privacy Policy</Link>  {/* Added this */}
-          <a href="tel:+254759205319">Phone</a>
+          <a href="tel:+254712345678">Phone</a>
         </div>
     </footer>
 

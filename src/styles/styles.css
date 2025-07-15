@@ -365,6 +365,20 @@
   color: #2e3a59;
 }
 
+/* Add styling for unordered lists (feature lists) */
+.project ul {
+  margin: 0.5rem 0 1.5rem 1.5rem;
+  padding: 0;
+  list-style-type: disc;
+  color: #3a4a72;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.project ul li {
+  margin-bottom: 0.5rem;
+}
+
 /* EMS Image Slideshow */
 
 .ems-gallery {
@@ -382,11 +396,15 @@
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 91, 181, 0.25);
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: zoom-in;
 }
 
-.ems-image:hover {
+.ems-image:hover,
+.ems-image:focus {
   transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 91, 181, 0.45);
+  outline: none;
 }
 
 .gallery-btn {
@@ -399,16 +417,19 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 91, 181, 0.3);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
 }
 
-.gallery-btn:hover {
-  background-color: #003d80;
-  box-shadow: 0 6px 18px rgba(0, 91, 181, 0.5);
-}
-
+.gallery-btn:hover,
 .gallery-btn:focus {
-  outline: 2px solid #003d80;
-  outline-offset: 2px;
+  background-color: #003d80;
+  box-shadow: 0 6px 18px rgba(0, 91, 181, 0.6);
+  outline: none;
+}
+
+.gallery-btn:focus-visible {
+  outline: 3px solid #99c2ff;
+  outline-offset: 3px;
 }
 
 /* Responsive adjustments */
@@ -425,6 +446,11 @@
 
   .project h3 {
     font-size: 1.4rem;
+  }
+
+  .project p,
+  .project ul {
+    font-size: 0.95rem;
   }
 
   .ems-image {
@@ -446,7 +472,7 @@
     transform: translateY(0);
   }
 }
-   
+
 /* Enlarged image overlay */
 
 .image-overlay {
@@ -494,7 +520,6 @@
     opacity: 1;
   }
 }
-
 
 /* Services Section Styling */
 /* ===== Services Section ===== */
