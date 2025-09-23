@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/styles.css';
+import EMSDemo from './EMSDemo';
+/* eslint-disable no-unused-vars */
 
 const emsImages = [
   '/images/ems-1.png',
@@ -50,80 +52,13 @@ export default function Projects() {
   return (
     <section className="page projects">
       <h2>Projects</h2>
-
+<lable>EMPLOYEE MANAGMENT SYSTEM</lable>
       {/* Employee Management System Project */}
-      <div className="project">
-        <h3>Employee Management System (EMS)</h3>
-        <p>
-          The Employee Management System (EMS) is a robust, full-stack web application designed to streamline and automate HR processes for businesses. It handles employee records, attendance tracking, leave management, payroll calculations, and reporting — all in one centralized platform.
-        </p>
-        <p><strong>Key Features:</strong></p>
-        <ul>
-          <li>Employee profiles with personal and job details</li>
-          <li>Real-time attendance tracking with check-in/out and location verification</li>
-          <li>Leave request submissions, approvals, and history management</li>
-          <li>Payroll generation including salary calculation and deductions</li>
-          <li>Role-based access control for admin and employees</li>
-          <li>Detailed reports and dashboards for HR analytics</li>
-        </ul>
-        <p><strong>Technologies Used:</strong> React for frontend UI, Node.js/Express for backend API, MySQL for relational database management, JWT for secure authentication, and CSS Flexbox/Grid for responsive design.</p>
-        <p><strong>Benefits:</strong> Automates tedious HR tasks, improves accuracy, provides real-time insights, and enhances employee self-service capabilities.</p>
-
-        {/* EMS Image Slider */}
-        <div className="ems-gallery" aria-label="Employee Management System project screenshots">
-          <button
-            onClick={prevImage}
-            className="gallery-btn"
-            aria-label="Previous project screenshot"
-          >
-            &#10094;
-          </button>
-
-          <img
-            src={emsImages[currentIndex]}
-            alt={`Screenshot of EMS project, slide ${currentIndex + 1} of ${emsImages.length}`}
-            className="ems-image"
-            onClick={() => setEnlarged(true)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setEnlarged(true);
-              }
-            }}
-          />
-
-          <button
-            onClick={nextImage}
-            className="gallery-btn"
-            aria-label="Next project screenshot"
-          >
-            &#10095;
-          </button>
-        </div>
+      <div className="ems-demo-wrapper">
+        <h4>Live Demo for employee management system:</h4>
+        <EMSDemo />
       </div>
 
-      {/* Enlarged Modal Image */}
-      {enlarged && (
-        <div
-          className="image-overlay"
-          onClick={() => setEnlarged(false)}
-          role="dialog"
-          aria-modal="true"
-          tabIndex={-1}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') {
-              setEnlarged(false);
-            }
-          }}
-        >
-          <img
-            src={emsImages[currentIndex]}
-            alt={`Enlarged screenshot of EMS project, slide ${currentIndex + 1}`}
-            className="enlarged-image"
-          />
-        </div>
-      )}
 
       {/* Portfolio Website Project */}
       <div className="project">
@@ -157,7 +92,7 @@ export default function Projects() {
           <li>Mobile-first design for accessibility on all devices</li>
           <li>Integration with Stripe API for seamless payment processing</li>
         </ul>
-        <p><strong>Technologies Used:</strong> React for frontend SPA, Node.js/Express backend, Stripe API for payments, and MongoDB for data storage.</p>
+        <p><strong>Technologies Used:</strong> React for frontend React.js, Node.js/Express backend, Stripe API for payments, and MYSQLDB for data storage.</p>
         <p><strong>Benefits:</strong> Empowers the business to expand sales online, reduce manual booking tasks, and improve customer satisfaction.</p>
       </div>
     </section>

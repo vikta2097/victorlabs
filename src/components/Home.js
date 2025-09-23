@@ -24,10 +24,10 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="hero">
-        <h1>Hello, I'm Vikta Mwangi</h1>
+        <h1>Hello, we are VictorLabs</h1>
         <p>
-          Passionate software developer building modern, reliable software and websites.
-          Welcome to my portfolio!
+          Passionate software developers organisation building modern, reliable software and websites.
+          Welcome to our portfolio!
         </p>
       </section>
 
@@ -41,20 +41,20 @@ export default function Home() {
 
         <div className="card">
           <h2>Projects</h2>
-          <p>See my recent work including employee management systems and e-commerce platforms.</p>
+          <p>See our recent work including employee management systems and e-commerce platforms.</p>
           <Link to="/projects" className="btn-link">View Projects</Link>
         </div>
 
         <div className="card">
-          <h2>About Me</h2>
-          <p>A little about my background, skills, and what drives me as a developer.</p>
+          <h2>About Us</h2>
+          <p>A little about our background, skills, and what drives Us as an organisation of developer.</p>
           <Link to="/about" className="btn-link">Learn More</Link>
         </div>
 
         <div className="card">
           <h2>Contact</h2>
           <p>Get in touch to discuss your project or just say hello!</p>
-          <Link to="/contact" className="btn-link">Contact Me</Link>
+          <Link to="/contact" className="btn-link">Contact Us</Link>
         </div>
       </section>
 
@@ -66,8 +66,8 @@ export default function Home() {
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <Link to="/contact">Contact</Link>
           <Link to="/terms">Terms & Conditions</Link>
-          <Link to="/privacy">Privacy Policy</Link>  {/* Added this */}
-          <a href="tel:+254712345678">Phone</a>
+          <Link to="/privacy">Privacy Policy</Link>  
+          <a href="tel:+254759205319">Phone</a>
         </div>
     </footer>
 

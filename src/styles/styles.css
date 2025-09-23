@@ -856,3 +856,10 @@
     margin: 1rem;
   }
 }
+.ems-demo-wrapper {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background: #fafafa;
+}
