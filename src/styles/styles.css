@@ -1,214 +1,4 @@
-/* ======= Homepage Specific Styles ======= */
-
-/* Navbar */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #005bb5;
-  padding: 1rem 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-}
-
-.logo a {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.menu-icon {
-  display: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: white;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1.2rem;
-  list-style: none;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  position: relative;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  background-color: white;
-  bottom: -4px;
-  left: 0;
-  transition: width 0.3s;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-/* Responsive Navbar */
-#menu-toggle {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .menu-icon {
-    display: block;
-  }
-  .nav-links {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    background-color: #005bb5;
-    width: 100%;
-    flex-direction: column;
-    display: none;
-  }
-  #menu-toggle:checked + .menu-icon + .nav-links {
-    display: flex;
-  }
-  .nav-links li {
-    padding: 1rem;
-    border-top: 1px solid #3385ff;
-  }
-}
-
-/* Hero Section */
-.hero {
-  background: linear-gradient(135deg, #005bb5, #3385ff);
-  color: white;
-  text-align: center;
-  padding: 4rem 2rem;
-  max-width: 900px;
-  margin: 3rem auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 50, 0.1);
-}
-
-/* Floating Cards Section */
-.floating-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  padding: 3rem 2rem;
-  max-width: 900px;
-  margin: 0 auto 4rem;
-}
-
-.card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 91, 181, 0.15);
-  width: 280px;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 91, 181, 0.3);
-}
-
-.card h2 {
-  margin-bottom: 1rem;
-  color: #005bb5;
-}
-
-.card p {
-  color: #444;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
-/* Button link style */
-.btn-link {
-  display: inline-block;
-  padding: 0.6rem 1.3rem;
-  border-radius: 6px;
-  background-color: #005bb5;
-  color: white;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.btn-link:hover {
-  background-color: #003d80;
-}
-
-/* Responsive cards on small screens */
-@media (max-width: 768px) {
-  .floating-cards {
-    flex-direction: column;
-    align-items: center;
-  }
-  .card {
-    width: 90%;
-    max-width: 350px;
-  }
-}
-
-/* Footer */
-.footer {
-  background-color: #003d80;
-  color: white;
-  padding: 2rem;
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto 2rem;
-  border-radius: 8px;
-}
-
-.footer-links {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  color: #cce6ff;
-  text-decoration: none;
-  font-weight: 500;
-  position: relative;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover {
-  color: white;
-}
-
-.footer-links a::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background: #cce6ff;
-  transition: width 0.3s;
-}
-
-.footer-links a:hover::after {
-  width: 100%;
-}
-
 /* ===== About Page Modern Styling & Animation ===== */
-
 .page.about {
   max-width: 800px;
   margin: 4rem auto 6rem;
@@ -313,348 +103,7 @@
   }
 }
 
-/* ===== Projects Page Styles ===== */
-
-.page.projects {
-  max-width: 900px;
-  margin: 3rem auto 6rem;
-  padding: 2.5rem 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0, 0, 50, 0.1);
-  color: #0d1a3a;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  animation: fadeInUp 0.8s ease forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.page.projects h2 {
-  color: #003366;
-  font-weight: 700;
-  font-size: 2.4rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  letter-spacing: 1.1px;
-}
-
-.project {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1.5px solid #d0dfff;
-}
-
-.project:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.project h3 {
-  color: #004aad;
-  font-weight: 600;
-  font-size: 1.8rem;
-  margin-bottom: 0.8rem;
-  letter-spacing: 0.03em;
-}
-
-.project p {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 0.8rem;
-  color: #2e3a59;
-}
-
-/* Add styling for unordered lists (feature lists) */
-.project ul {
-  margin: 0.5rem 0 1.5rem 1.5rem;
-  padding: 0;
-  list-style-type: disc;
-  color: #3a4a72;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.project ul li {
-  margin-bottom: 0.5rem;
-}
-
-/* EMS Image Slideshow */
-
-.ems-gallery {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-  gap: 1rem;
-  user-select: none;
-}
-
-.ems-image {
-  max-width: 400px;
-  max-height: 250px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 91, 181, 0.25);
-  object-fit: contain;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: zoom-in;
-}
-
-.ems-image:hover,
-.ems-image:focus {
-  transform: scale(1.05);
-  box-shadow: 0 12px 28px rgba(0, 91, 181, 0.45);
-  outline: none;
-}
-
-.gallery-btn {
-  background-color: #005bb5;
-  border: none;
-  color: white;
-  font-size: 2.5rem;
-  padding: 0.3rem 1rem;
-  cursor: pointer;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 91, 181, 0.3);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-
-.gallery-btn:hover,
-.gallery-btn:focus {
-  background-color: #003d80;
-  box-shadow: 0 6px 18px rgba(0, 91, 181, 0.6);
-  outline: none;
-}
-
-.gallery-btn:focus-visible {
-  outline: 3px solid #99c2ff;
-  outline-offset: 3px;
-}
-
-/* Responsive adjustments */
-
-@media (max-width: 768px) {
-  .page.projects {
-    padding: 1.5rem 1rem;
-    margin: 2rem auto 4rem;
-  }
-
-  .page.projects h2 {
-    font-size: 1.8rem;
-  }
-
-  .project h3 {
-    font-size: 1.4rem;
-  }
-
-  .project p,
-  .project ul {
-    font-size: 0.95rem;
-  }
-
-  .ems-image {
-    max-width: 90vw;
-    max-height: 200px;
-  }
-
-  .gallery-btn {
-    font-size: 2rem;
-    padding: 0.25rem 0.7rem;
-  }
-}
-
-/* Fade In Up animation */
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Enlarged image overlay */
-
-.image-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 10, 30, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  cursor: zoom-out;
-  animation: fadeIn 0.4s ease-in-out;
-}
-
-.enlarged-image {
-  max-width: 90vw;
-  max-height: 90vh;
-  width: 70%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.2);
-  animation: zoomIn 0.3s ease-in-out;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    background-color: rgba(0, 10, 30, 0);
-  }
-  to {
-    background-color: rgba(0, 10, 30, 0.85);
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    transform: scale(0.85);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Services Section Styling */
-/* ===== Services Section ===== */
-.services-section {
-  padding: 40px 20px;
-  background-color: #f9fbfd;
-  animation: fadeIn 0.6s ease-in-out;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  text-align: center;
-  color: #0056b3;
-  margin-bottom: 10px;
-}
-
-.section-subtitle {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 30px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-/* ===== Service Card ===== */
-.service-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-  transition: all 0.3s ease-in-out;
-  text-align: center;
-  border: 2px solid transparent;
-  cursor: pointer;
-  position: relative;
-}
-
-.service-card:hover {
-  transform: translateY(-5px);
-  border-color: #007bff;
-  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.15);
-}
-
-.service-card.active {
-  transform: scale(1.05);
-  background-color: #eaf4ff;
-  z-index: 2;
-}
-
-/* ===== Icon and Title ===== */
-.service-icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  color: #007bff;
-}
-
-.service-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-/* ===== Description Area ===== */
-.service-expanded {
-  margin-top: 10px;
-  font-size: 0.95rem;
-  color: #444;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.service-description {
-  margin-top: 8px;
-  line-height: 1.5;
-  text-align: left;
-  padding-top: 5px;
-}
-
-/* ===== Close Button ===== */
-.close-button {
-  position: absolute;
-  top: 12px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #555;
-  cursor: pointer;
-  transition: color 0.3s;
-  z-index: 10;
-}
-
-.close-button:hover {
-  color: #f00;
-}
-
-/* ===== Animation ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ===== Responsive Adjustments ===== */
-@media (max-width: 600px) {
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .section-subtitle {
-    font-size: 1rem;
-  }
-
-  .service-description {
-    font-size: 0.9rem;
-  }
-  }
-
-
-/* Contact Page Styling */
+/* ===== Contact Page Styling ===== */
 .contact {
   padding: 50px 20px;
   background-color: #f9fbfd;
@@ -765,6 +214,7 @@
   }
 }
 
+/* ===== Terms Page ===== */
 .terms {
   padding: 50px 20px;
   max-width: 900px;
@@ -806,7 +256,7 @@
   margin-bottom: 0.5rem;
 }
 
-
+/* ===== Privacy Policy Page ===== */
 .page.privacy-policy {
   max-width: 800px;
   margin: 2rem auto;
@@ -822,7 +272,7 @@
 .page.privacy-policy h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #004aad; /* Your brand blue */
+  color: #004aad;
   text-align: center;
 }
 
@@ -856,10 +306,66 @@
     margin: 1rem;
   }
 }
-.ems-demo-wrapper {
-  margin-top: 20px;
-  padding: 20px;
-  border: 2px solid #ddd;
+
+/* ===== About Page Sections ===== */
+.about-page {
+  padding: 3rem 1.5rem;
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.about-hero p {
+  max-width: 700px;
+  margin: 1rem auto;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.about-logo {
+  width: 100px;
+  margin-bottom: 1rem;
+}
+
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+
+.about-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.about-text {
+  flex: 1;
+  padding: 1rem 2rem;
+  max-width: 600px;
+}
+
+.about-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #003366;
+}
+
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.about-image {
+  flex: 1;
+  text-align: center;
+}
+
+.about-image img {
+  max-width: 90%;
   border-radius: 12px;
-  background: #fafafa;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }

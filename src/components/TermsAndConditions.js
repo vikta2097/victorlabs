@@ -10,50 +10,68 @@ export default function TermsAndConditions() {
 
       <h2>1. Introduction</h2>
       <p>
-        Welcome to my portfolio website, developed and managed by Vikta Mwangi. By accessing or using this site, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use the website.
+        Welcome to the official website of <strong>Victor Labs</strong>. By accessing or using this site, 
+        you agree to comply with and be bound by these Terms and Conditions. If you do not agree with any 
+        part of these terms, please discontinue use of our website immediately.
       </p>
 
       <h2>2. Intellectual Property</h2>
       <p>
-        All content on this website, including text, graphics, logos, icons, images, code, and design, is the intellectual property of Vikta Mwangi unless otherwise stated. Unauthorized copying, distribution, or use of this content is prohibited.
+        All content available on this website, including but not limited to text, graphics, logos, icons, 
+        images, software code, and design, is the intellectual property of <strong>Victor Labs</strong> 
+        unless otherwise stated. Unauthorized reproduction, distribution, or commercial use of this content 
+        without prior written consent is strictly prohibited.
       </p>
 
       <h2>3. Acceptable Use</h2>
       <p>
-        You agree not to use this website for any unlawful purpose or in a way that could harm or impair the functionality of the site. You must not:
+        By using our website, you agree not to engage in activities that may:
       </p>
       <ul>
-        <li>Attempt to gain unauthorized access to the site or server</li>
-        <li>Transmit malicious software or harmful code</li>
-        <li>Use this website to harass, abuse, or defame others</li>
+        <li>Violate any applicable laws or regulations</li>
+        <li>Attempt unauthorized access to our servers or systems</li>
+        <li>Introduce malicious software, viruses, or harmful code</li>
+        <li>Use the site to harass, defame, or infringe upon the rights of others</li>
       </ul>
 
       <h2>4. Third-Party Links</h2>
       <p>
-        This website may contain links to external websites. These are provided for your convenience, and I am not responsible for the content, policies, or practices of these third-party sites.
+        Our website may include links to third-party websites or services for your convenience. 
+        <strong>Victor Labs</strong> is not responsible for the content, security, or practices of 
+        these external sites. Use of third-party websites is at your own risk and subject to their 
+        respective terms and policies.
       </p>
 
       <h2>5. Limitation of Liability</h2>
       <p>
-        This website is provided "as is" without warranties of any kind. I do not guarantee that the site will be error-free or uninterrupted. I am not liable for any losses, damages, or issues that arise from using this website.
+        This website is provided on an “as is” and “as available” basis without warranties of any kind. 
+        <strong>Victor Labs</strong> does not guarantee uninterrupted or error-free operation of the site 
+        and shall not be held liable for any direct, indirect, incidental, or consequential damages arising 
+        from your use of the website.
       </p>
 
       <h2>6. Privacy Policy</h2>
       <p>
-        By using this site, you acknowledge that you have read and agree with the <strong>Privacy Policy</strong>. Any data submitted through the contact form is handled with care and not shared with third parties without consent.
+        Your use of this website is also governed by our <a href="/privacy-policy">Privacy Policy</a>. 
+        By continuing to use the site, you acknowledge and consent to the collection and handling of 
+        data as described in that policy.
       </p>
 
       <h2>7. Changes to These Terms</h2>
       <p>
-        I reserve the right to update these Terms and Conditions at any time. Changes will take effect once posted on this page. Continued use of the site constitutes your acceptance of the updated terms.
+        <strong>Victor Labs</strong> reserves the right to update or modify these Terms and Conditions 
+        at any time without prior notice. Any changes will be effective immediately upon posting on this page. 
+        Continued use of the website constitutes your acceptance of the revised terms.
       </p>
 
       <h2>8. Governing Law</h2>
       <p>
-        These terms shall be governed by and construed in accordance with the laws of Kenya. Any disputes shall be handled through the appropriate legal channels in Kenya.
+        These Terms and Conditions shall be governed by and interpreted in accordance with the laws of Kenya. 
+        Any disputes arising under or in connection with these terms shall be subject to the exclusive jurisdiction 
+        of the courts of Kenya.
       </p>
 
-      <p>Thank you for visiting!</p>
+      <p>Thank you for visiting our website and for trusting <strong>Victor Labs</strong>.</p>
     </section>
   );
 }

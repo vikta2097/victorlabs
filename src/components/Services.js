@@ -1,89 +1,136 @@
-import React, { useState } from 'react';
-import '../styles/styles.css';
+import React, { useState } from "react";
+import "../styles/services.css";
+
+const services = [
+  {
+    title: "Custom Software Development",
+    description:
+      "We build tailor-made software solutions for your unique business needs. Whether it’s an internal management system, a customer portal, or a specialized workflow tool, our solutions are scalable, secure, and optimized for performance.",
+    points: [
+      "Internal ERP or management systems",
+      "Customer portals & dashboards",
+      "Workflow automation",
+      "Performance-focused & scalable solutions",
+    ],
+    image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    title: "Website Development",
+    description:
+      "We design and develop responsive, modern websites tailored to your brand. Optimized for speed, SEO, and mobile-friendliness, every website provides an excellent user experience.",
+    points: [
+      "Responsive design for all devices",
+      "SEO-friendly structure",
+      "Fast-loading, high-performance websites",
+      "User-focused interface and navigation",
+    ],
+    image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+  },
+  {
+    title: "System Design & Consulting",
+    description:
+      "We help businesses plan and design efficient systems. Our experts provide consulting on architecture, workflows, and technology stacks to ensure cost-effective and scalable solutions.",
+    points: [
+      "Architecture planning",
+      "Technology stack recommendations",
+      "Workflow optimization",
+      "Efficient & scalable system design",
+    ],
+    image: "https://images.pexels.com/photos/3184636/pexels-photo-3184636.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    title: "System Upgrades & Migration",
+    description:
+      "Upgrade legacy systems or migrate databases with minimal downtime. Keep your software up-to-date, secure, and compatible with modern technologies.",
+    points: [
+      "Legacy software modernization",
+      "Database migration & optimization",
+      "Performance tuning & security updates",
+      "Seamless transitions",
+    ],
+    image: "https://cdn.pixabay.com/photo/2015/01/08/18/25/startup-593327_1280.jpg",
+  },
+  {
+    title: "API Integration",
+    description:
+      "We connect your applications with external services to automate workflows and enable seamless data exchange.",
+    points: [
+      "Payment gateway integration",
+      "CRM & ERP integration",
+      "Cloud and third-party services",
+      "Smooth & secure data flow",
+    ],
+    image: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    title: "Database Design & Management",
+    description:
+      "We design robust, secure, and optimized databases that make it easy to store, retrieve, and analyze your data.",
+    points: [
+      "Relational & NoSQL databases",
+      "Performance & security optimization",
+      "Data retrieval & reporting",
+      "Integration with applications",
+    ],
+    image: "https://img.freepik.com/free-vector/database-design-icon-conceptual-server-room-rack-data-center_39422-527.jpg?semt=ais_hybrid&w=740&q=80",
+  },
+  {
+    title: "UI/UX Design",
+    description:
+      "We craft intuitive and visually appealing interfaces that enhance usability and improve user satisfaction.",
+    points: [
+      "User research & personas",
+      "Wireframes & prototypes",
+      "Accessibility & usability focus",
+      "Engaging interactive designs",
+    ],
+    image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    title: "Training & Support",
+    description:
+      "We provide training and ongoing support so your team can confidently use and manage the software.",
+    points: [
+      "User training & onboarding",
+      "Maintenance & bug fixes",
+      "Performance monitoring",
+      "Continuous support & updates",
+    ],
+    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+];
 
 export default function Services() {
-  const services = [
-    {
-      title: 'Custom Software Development',
-      description:
-        'We build personalized software solutions from the ground up based on your specific business needs — whether it’s a customer portal, an inventory system, or an internal management tool. Everything is tailor-made to fit your workflow.',
-    },
-    {
-      title: 'Website Development',
-      description:
-        'Get a modern, mobile-friendly website built to showcase your brand, products, or services. We handle everything from design and layout to performance and SEO — making sure it looks great and works fast.',
-    },
-    {
-      title: 'System Design & Consulting',
-      description:
-        'Not sure what kind of software you need? We help plan, design, and advise on the right system architecture, technologies, and workflows before development begins — ensuring your investment is efficient and scalable.',
-    },
-    {
-      title: 'System Upgrades',
-      description:
-        'Is your current software or website slow, outdated, or no longer serving your needs? We upgrade your systems to make them faster, more secure, and compatible with the latest technologies.',
-    },
-    {
-      title: 'API Integration',
-      description:
-        'APIs allow different systems to talk to each other. Whether it’s integrating mobile payment options, connecting your app with Google Maps, or syncing with an inventory system — we make your tools work together smoothly.',
-    },
-    {
-      title: 'Database Design',
-      description:
-        'We design and implement smart, secure databases that safely store your business information — like customer details, transactions, or records — making it easy to search, sort, and retrieve what you need.',
-    },
-    {
-      title: 'UI/UX Design',
-      description:
-        'User Interface (UI) and User Experience (UX) design is all about how your software looks and feels. We create clean, intuitive designs that are easy for anyone to use — even without a tech background.',
-    },
-    {
-      title: 'Software Training',
-      description:
-        'Once we build your system, we don’t just hand it over. We train you and your team on how to use it properly, so everyone is confident navigating, inputting data, and managing tasks efficiently.',
-    },
-    {
-      title: 'Maintenance & Support',
-      description:
-        'Software needs care to stay secure and up-to-date. We offer ongoing support to fix bugs, update features, monitor performance, and ensure everything keeps running smoothly long after launch.',
-    },
-  ];
-
   const [activeIndex, setActiveIndex] = useState(null);
-
-  const handleClick = (index) => {
-    setActiveIndex(index === activeIndex ? null : index); // Toggle
-  };
-
-  const closeService = () => {
-    setActiveIndex(null); // Close the active service
-  };
 
   return (
     <section className="page services-section">
-      <h2 className="section-title">Services</h2>
+      <h2 className="section-title">Our Services</h2>
       <p className="section-subtitle">
-        I offer a range of professional software development services tailored to meet your business needs:
+        We provide a wide range of software and IT services tailored to help your business succeed.
       </p>
       <div className="services-grid">
         {services.map((service, index) => (
           <div
             key={index}
-            className={`service-card ${activeIndex === index ? 'active' : ''}`}
-            onClick={() => handleClick(index)}
+            className={`service-block ${activeIndex === index ? "active" : ""}`}
+            onClick={() => setActiveIndex(activeIndex === index ? null : index)}
           >
-            <div className="service-icon">🛠</div>
-            <h3 className="service-title">{service.title}</h3>
-            {activeIndex === index && (
-              <div className="service-expanded">
-                <button className="close-button" onClick={closeService}>×</button>
-                <p className="service-description">{service.description}</p>
-              </div>
-            )}
+            <div className="service-image">
+              <img src={service.image} alt={service.title} />
+            </div>
+            <div className="service-text">
+              <h3 className="service-title">{service.title}</h3>
+              <p className="service-description">{service.description}</p>
+              <ul className="service-points">
+                {service.points.map((point, idx) => (
+                  <li key={idx}>✅ {point}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
     </section>
   );
-      }
+}

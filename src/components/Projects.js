@@ -1,99 +1,166 @@
-import React, { useState, useEffect, useRef } from 'react';
-import '../styles/styles.css';
-import EMSDemo from './EMSDemo';
-/* eslint-disable no-unused-vars */
+import React from "react";
+import "../styles/projects.css";
 
-const emsImages = [
-  '/images/ems-1.png',
-  '/images/ems-2.png',
-  '/images/ems-3.png',
+const projects = [
+  {
+    title: "Employee Management System",
+    category: "Web Application",
+    client: "Internal / Personal Project",
+    role: "Full-Stack Developer",
+    description:
+      "A comprehensive EMS with payroll, leave, attendance, notifications, and chatbot assistant. Built as a role-based system for both admins and employees.",
+    features: [
+      "Role-based dashboards (Admin & Employee)",
+      "Payroll and payslip management",
+      "Leave requests and balances",
+      "Attendance tracking",
+      "Real-time notifications and chatbot assistant",
+    ],
+    tech: ["React", "LocalStorage", "Node.js (planned)", "MySQL (planned)"],
+    status: "In Progress",
+    timeline: "Jun 2024 – Present",
+    github: "https://github.com/yourusername/ems",
+    live: "https://vikta2097.github.io/test2",
+    caseStudy: "#", // later replace with blog or detailed page
+    image:
+      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80", // dashboard / code theme
+  },
+  {
+    title: "Portfolio Website",
+    category: "Portfolio",
+    client: "Personal",
+    role: "Frontend Developer",
+    description:
+      "A clean, modern, and fully responsive portfolio website to showcase skills, projects, and contact information.",
+    features: [
+      "Responsive layout (desktop, tablet, mobile)",
+      "Interactive project galleries",
+      "SEO optimized",
+      "Contact form integration",
+    ],
+    tech: ["HTML5", "CSS3", "JavaScript"],
+    status: "Completed",
+    timeline: "Mar 2024– Apr 2024",
+    github: "https://github.com/yourusername/portfolio",
+    live: "https://victorlabs.netlify.app/",
+    caseStudy: "#",
+    image:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // laptop/dev theme
+  },
+  {
+    title: "Custom Business Website",
+    category: "Business Website",
+    client: "Demo Project",
+    role: "Full-Stack Developer",
+    description:
+      "A tailor-made business site with e-commerce and booking capabilities to enhance customer experience.",
+    features: [
+      "E-commerce with payment gateway",
+      "Booking system integration",
+      "Admin dashboard for management",
+      "Mobile-first design",
+    ],
+    tech: ["React", "Node.js/Express", "Stripe API", "MySQL"],
+    status: "Prototype",
+    timeline: "Aug 2024– Sep 2024",
+    github: "https://github.com/yourusername/business-site",
+    live: "https://vikta2097.github.io/project",
+    caseStudy: "#",
+    image:
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80", // business / modern office
+  },
 ];
 
 export default function Projects() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [enlarged, setEnlarged] = useState(false);
-  const timeoutRef = useRef(null);
-  const delay = 4000;
-
-  // Clears any existing timeout to avoid multiple timers running simultaneously
-  const resetTimeout = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
-
-  // Automatically cycle through images every `delay` milliseconds
-  useEffect(() => {
-    resetTimeout();
-    timeoutRef.current = setTimeout(() => {
-      setCurrentIndex((prev) =>
-        prev === emsImages.length - 1 ? 0 : prev + 1
-      );
-    }, delay);
-    return () => resetTimeout();
-  }, [currentIndex]);
-
-  // Go to next image manually, resetting timer
-  const nextImage = () => {
-    resetTimeout();
-    setCurrentIndex((prev) =>
-      prev === emsImages.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  // Go to previous image manually, resetting timer
-  const prevImage = () => {
-    resetTimeout();
-    setCurrentIndex((prev) =>
-      prev === 0 ? emsImages.length - 1 : prev - 1
-    );
-  };
-
   return (
-    <section className="page projects">
-      <h2>Projects</h2>
-<lable>EMPLOYEE MANAGMENT SYSTEM</lable>
-      {/* Employee Management System Project */}
-      <div className="ems-demo-wrapper">
-        <h4>Live Demo for employee management system:</h4>
-        <EMSDemo />
-      </div>
+    <section
+      className="projects-section page projects"
+      aria-labelledby="projects-title"
+    >
+      <h2 id="projects-title">Projects</h2>
+      <div className="projects-grid" role="list">
+        {projects.map((project, idx) => (
+          <article key={idx} className="project-card" role="listitem">
+            <div className="project-media">
+              <img
+                src={project.image}
+                alt={`${project.title} screenshot`}
+                loading="lazy"
+              />
+            </div>
+            <div className="project-body">
+              <span className="project-category">{project.category}</span>
+              <h3 className="project-title">{project.title}</h3>
+              <p className="project-desc">{project.description}</p>
 
+              {/* Features */}
+              <ul className="project-features">
+                {project.features.map((f, i) => (
+                  <li key={i}>{f}</li>
+                ))}
+              </ul>
 
-      {/* Portfolio Website Project */}
-      <div className="project">
-        <h3>Personal Portfolio Website</h3>
-        <p>
-          A clean, modern, and fully responsive portfolio website designed to showcase my skills, projects, and contact information. Built with a focus on performance and accessibility.
-        </p>
-        <p><strong>Key Features:</strong></p>
-        <ul>
-          <li>Responsive layout for desktop, tablet, and mobile</li>
-          <li>Interactive project galleries and detailed case studies</li>
-          <li>Contact form integrated with email service for easy communication</li>
-          <li>Clean codebase with semantic HTML, CSS, and JavaScript</li>
-          <li>SEO optimization for better search engine visibility</li>
-        </ul>
-        <p><strong>Technologies Used:</strong> HTML5, CSS3 (including Flexbox and Grid), Vanilla JavaScript, and responsive design principles.</p>
-        <p><strong>Benefits:</strong> Provides a professional online presence that helps potential clients and employers quickly understand my expertise and portfolio.</p>
-      </div>
+              {/* Meta info */}
+              <div className="project-meta">
+                <p>
+                  <strong>Client:</strong> {project.client}
+                </p>
+                <p>
+                  <strong>Role:</strong> {project.role}
+                </p>
+                <p>
+                  <strong>Status:</strong> {project.status}
+                </p>
+                <p>
+                  <strong>Timeline:</strong> {project.timeline}
+                </p>
+              </div>
 
-      {/* Custom Business Website Project */}
-      <div className="project">
-        <h3>Custom Business Website</h3>
-        <p>
-          A tailor-made website solution developed for a local business to boost their online presence and sales. It includes e-commerce features and booking capabilities designed to enhance customer experience and streamline operations.
-        </p>
-        <p><strong>Key Features:</strong></p>
-        <ul>
-          <li>E-commerce platform with secure payment integration</li>
-          <li>Booking system allowing customers to schedule appointments or services</li>
-          <li>Admin dashboard for easy management of products, orders, and bookings</li>
-          <li>Mobile-first design for accessibility on all devices</li>
-          <li>Integration with Stripe API for seamless payment processing</li>
-        </ul>
-        <p><strong>Technologies Used:</strong> React for frontend React.js, Node.js/Express backend, Stripe API for payments, and MYSQLDB for data storage.</p>
-        <p><strong>Benefits:</strong> Empowers the business to expand sales online, reduce manual booking tasks, and improve customer satisfaction.</p>
+              {/* Tech stack */}
+              <ul className="project-tech">
+                {project.tech.map((t, i) => (
+                  <li key={i} className="tech-tag">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Links */}
+              <div className="project-ctas">
+                {project.live && (
+                  <a
+                    className="btn btn-primary"
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Live Demo
+                  </a>
+                )}
+                {project.github && (
+                  <a
+                    className="btn btn-ghost"
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </a>
+                )}
+                {project.caseStudy && (
+                  <a
+                    className="btn btn-outline"
+                    href={project.caseStudy}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Case Study
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

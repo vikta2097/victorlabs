@@ -1,0 +1,139 @@
+/* ===== Services Section (Full Block Style) ===== */
+.services-section {
+  padding: 60px 20px;
+  background-color: #f8faff;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  text-align: center;
+  color: #004aad;
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ===== Service Block ===== */
+.service-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  flex-wrap: wrap;
+}
+
+.service-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 123, 255, 0.15);
+}
+
+/* Alternate layout for odd/even services */
+.service-block:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* ===== Service Image ===== */
+.service-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.service-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.service-block:hover .service-image img {
+  transform: scale(1.05);
+}
+
+/* ===== Service Text ===== */
+.service-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.service-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.service-description {
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.service-points {
+  list-style: disc inside;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.service-points li {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .service-block {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .service-block:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .service-text {
+    padding: 20px 0 0 0;
+  }
+
+  .service-image img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .service-title {
+    font-size: 1.6rem;
+  }
+
+  .service-description {
+    font-size: 1rem;
+  }
+}

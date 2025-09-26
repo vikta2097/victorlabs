@@ -1,0 +1,281 @@
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #fff;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo a {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #005bb5;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  transition: all 0.3s ease;
+}
+
+.nav-links a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #005bb5;
+}
+
+.btn-primary {
+  background: #005bb5;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 1.5rem;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #003d80;
+}
+
+/* ===== HAMBURGER MENU ===== */
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.menu-icon .bar {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  transition: all 0.3s ease;
+}
+
+.menu-icon .bar.open:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-icon .bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-icon .bar.open:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Mobile nav */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    width: 220px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-links li {
+    margin: 1rem 0;
+  }
+
+  .nav-links a {
+    color: #333;
+    font-size: 1rem;
+  }
+}
+
+/* ===== HERO ===== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5rem 3rem;
+  background: #f8faff;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 500px;
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  color: #222;
+  line-height: 1.2;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.hero-img {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-img img {
+  max-width: 450px;
+  width: 100%;
+}
+
+/* ===== SERVICES / CARDS ===== */
+.services {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #fff;
+}
+
+.services h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #005bb5;
+}
+
+.service-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.service-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 91, 181, 0.15);
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 91, 181, 0.25);
+}
+
+.service-card h3 {
+  margin-bottom: 1rem;
+  color: #005bb5;
+}
+
+.service-card p {
+  color: #444;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.btn-link {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  background-color: #005bb5;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-link:hover {
+  background-color: #003d80;
+}
+
+/* ===== CTA BANNER ===== */
+.cta-banner {
+  background: linear-gradient(135deg, #005bb5, #3385ff);
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin: 3rem 0;
+}
+
+.cta-banner h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.cta-banner .btn-primary {
+  background: white;
+  color: #005bb5;
+}
+
+.cta-banner .btn-primary:hover {
+  background: #f0f0f0;
+  color: #003d80;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #003d80;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+}
+
+.footer-links {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #cce6ff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: white;
+}
