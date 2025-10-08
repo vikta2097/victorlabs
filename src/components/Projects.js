@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/projects.css";
 
-const projects = [
+const API = "http://localhost:5000/api";
+
+// --- Static local projects ---
+const staticProjects = [
   {
     title: "Employee Management System",
     category: "Web Application",
@@ -21,9 +24,9 @@ const projects = [
     timeline: "Jun 2024 – Present",
     github: "https://github.com/yourusername/ems",
     live: "https://vikta2097.github.io/test2",
-    caseStudy: "#", // later replace with blog or detailed page
+    caseStudy: "#",
     image:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80", // dashboard / code theme
+      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Portfolio Website",
@@ -45,7 +48,7 @@ const projects = [
     live: "https://victorlabs.netlify.app/",
     caseStudy: "#",
     image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // laptop/dev theme
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
   },
   {
     title: "Custom Business Website",
@@ -67,63 +70,73 @@ const projects = [
     live: "https://vikta2097.github.io/project",
     caseStudy: "#",
     image:
-      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80", // business / modern office
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
 export default function Projects() {
+  const [dbProjects, setDbProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // --- Fetch live projects from backend ---
+  useEffect(() => {
+    fetch(`${API}/projects`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDbProjects(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching projects:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // --- Merge static + database projects ---
+  const allProjects = [...dbProjects, ...staticProjects];
+
   return (
-    <section
-      className="projects-section page projects"
-      aria-labelledby="projects-title"
-    >
+    <section className="projects-section page projects" aria-labelledby="projects-title">
       <h2 id="projects-title">Projects</h2>
+
+      {loading && <p>Loading live projects...</p>}
+
       <div className="projects-grid" role="list">
-        {projects.map((project, idx) => (
+        {allProjects.map((project, idx) => (
           <article key={idx} className="project-card" role="listitem">
             <div className="project-media">
               <img
-                src={project.image}
+                src={project.image || project.image_url}
                 alt={`${project.title} screenshot`}
                 loading="lazy"
+                onError={(e) => (e.target.src = "/fallback.jpg")}
               />
             </div>
+
             <div className="project-body">
-              <span className="project-category">{project.category}</span>
+              <span className="project-category">{project.category || "Web App"}</span>
               <h3 className="project-title">{project.title}</h3>
               <p className="project-desc">{project.description}</p>
 
-              {/* Features */}
-              <ul className="project-features">
-                {project.features.map((f, i) => (
-                  <li key={i}>{f}</li>
-                ))}
-              </ul>
+              {/* Features (optional, static only) */}
+              {project.features && (
+                <ul className="project-features">
+                  {project.features.map((f, i) => (
+                    <li key={i}>{f}</li>
+                  ))}
+                </ul>
+              )}
 
-              {/* Meta info */}
-              <div className="project-meta">
-                <p>
-                  <strong>Client:</strong> {project.client}
-                </p>
-                <p>
-                  <strong>Role:</strong> {project.role}
-                </p>
-                <p>
-                  <strong>Status:</strong> {project.status}
-                </p>
-                <p>
-                  <strong>Timeline:</strong> {project.timeline}
-                </p>
-              </div>
-
-              {/* Tech stack */}
-              <ul className="project-tech">
-                {project.tech.map((t, i) => (
-                  <li key={i} className="tech-tag">
-                    {t}
-                  </li>
-                ))}
-              </ul>
+              {/* Tech (optional) */}
+              {project.tech && (
+                <ul className="project-tech">
+                  {project.tech.map((t, i) => (
+                    <li key={i} className="tech-tag">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               {/* Links */}
               <div className="project-ctas">
@@ -145,16 +158,6 @@ export default function Projects() {
                     rel="noopener noreferrer"
                   >
                     GitHub
-                  </a>
-                )}
-                {project.caseStudy && (
-                  <a
-                    className="btn btn-outline"
-                    href={project.caseStudy}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Case Study
                   </a>
                 )}
               </div>

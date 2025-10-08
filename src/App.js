@@ -6,6 +6,10 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import TermsAndConditions from './components/TermsAndConditions';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import AdminDashboard from './components/AdminDashboard';
+
+
+
 
 function App() {
   return (
@@ -17,6 +21,7 @@ function App() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/terms" element={<TermsAndConditions />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/admin" element={<AdminDashboard />} />
     </Routes>
   );
 }

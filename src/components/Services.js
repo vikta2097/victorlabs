@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/services.css";
 
-const services = [
+// ✅ Default static data (fallback)
+const defaultServices = [
   {
     title: "Custom Software Development",
     description:
@@ -72,7 +73,8 @@ const services = [
       "Data retrieval & reporting",
       "Integration with applications",
     ],
-    image: "https://img.freepik.com/free-vector/database-design-icon-conceptual-server-room-rack-data-center_39422-527.jpg?semt=ais_hybrid&w=740&q=80",
+    image:
+      "https://img.freepik.com/free-vector/database-design-icon-conceptual-server-room-rack-data-center_39422-527.jpg?semt=ais_hybrid&w=740&q=80",
   },
   {
     title: "UI/UX Design",
@@ -84,7 +86,8 @@ const services = [
       "Accessibility & usability focus",
       "Engaging interactive designs",
     ],
-    image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0",
   },
   {
     title: "Training & Support",
@@ -101,7 +104,38 @@ const services = [
 ];
 
 export default function Services() {
+  const [services, setServices] = useState(defaultServices);
   const [activeIndex, setActiveIndex] = useState(null);
+
+  // ✅ Fetch from backend if available
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/services");
+        if (!res.ok) throw new Error("Failed to fetch services");
+        const data = await res.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          // merge or replace the static data
+          setServices([...defaultServices, ...data.map(service => ({
+            title: service.name,
+            description: service.description,
+            image: service.image_url,
+            points: [
+              "Professional service",
+              "Client-focused approach",
+              "Scalable & secure design",
+              "Delivered on time",
+            ],
+          }))]);
+        }
+      } catch (error) {
+        console.warn("⚠️ Using static fallback services:", error.message);
+      }
+    };
+
+    fetchServices();
+  }, []);
 
   return (
     <section className="page services-section">
@@ -117,16 +151,21 @@ export default function Services() {
             onClick={() => setActiveIndex(activeIndex === index ? null : index)}
           >
             <div className="service-image">
-              <img src={service.image} alt={service.title} />
+              <img
+                src={service.image || "https://via.placeholder.com/600x400?text=Service+Image"}
+                alt={service.title}
+              />
             </div>
             <div className="service-text">
               <h3 className="service-title">{service.title}</h3>
               <p className="service-description">{service.description}</p>
-              <ul className="service-points">
-                {service.points.map((point, idx) => (
-                  <li key={idx}>✅ {point}</li>
-                ))}
-              </ul>
+              {service.points && (
+                <ul className="service-points">
+                  {service.points.map((point, idx) => (
+                    <li key={idx}>✅ {point}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         ))}

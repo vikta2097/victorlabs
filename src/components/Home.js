@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
 
+
 export default function Home() {
   return (
     <>
@@ -39,6 +40,7 @@ export default function Home() {
         </div>
       </section>
 
+      
       {/* Services / Cards Section */}
       <section id="services" className="services">
         <h2>What We Do</h2>
@@ -66,15 +68,18 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* CTA Banner */}
       <section className="cta-banner">
         <h2>Ready to Work With Us?</h2>
         <Link to="/contact" className="btn-primary">Contact Us</Link>
       </section>
 
+    
+
       {/* Footer */}
       <footer className="footer">
-        <p>© {new Date().getFullYear()} VictorLabs. All rights reserved.</p>
+        <p>© { new Date().getFullYear()} VictorLabs. All rights reserved.</p>
         <div className="footer-links">
           <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>

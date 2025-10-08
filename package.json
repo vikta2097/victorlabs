@@ -16,7 +16,7 @@
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "homepage": ".",
+  "homepage": "http://.",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -42,5 +42,16 @@
     ]
   },
   "description": "VictorLabs personal portfolio",
-  "author": "Vikta Mwangi"
+  "author": "Vikta Mwangi",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikta2097/victorlabs.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikta2097/victorlabs/issues"
+  }
 }
