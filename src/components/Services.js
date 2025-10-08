@@ -13,7 +13,8 @@ const defaultServices = [
       "Workflow automation",
       "Performance-focused & scalable solutions",
     ],
-    image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image:
+      "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     title: "Website Development",
@@ -25,7 +26,8 @@ const defaultServices = [
       "Fast-loading, high-performance websites",
       "User-focused interface and navigation",
     ],
-    image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+    image:
+      "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
   },
   {
     title: "System Design & Consulting",
@@ -37,7 +39,8 @@ const defaultServices = [
       "Workflow optimization",
       "Efficient & scalable system design",
     ],
-    image: "https://images.pexels.com/photos/3184636/pexels-photo-3184636.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image:
+      "https://images.pexels.com/photos/3184636/pexels-photo-3184636.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     title: "System Upgrades & Migration",
@@ -49,7 +52,8 @@ const defaultServices = [
       "Performance tuning & security updates",
       "Seamless transitions",
     ],
-    image: "https://cdn.pixabay.com/photo/2015/01/08/18/25/startup-593327_1280.jpg",
+    image:
+      "https://cdn.pixabay.com/photo/2015/01/08/18/25/startup-593327_1280.jpg",
   },
   {
     title: "API Integration",
@@ -61,7 +65,8 @@ const defaultServices = [
       "Cloud and third-party services",
       "Smooth & secure data flow",
     ],
-    image: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image:
+      "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     title: "Database Design & Management",
@@ -99,7 +104,8 @@ const defaultServices = [
       "Performance monitoring",
       "Continuous support & updates",
     ],
-    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600",
+    image:
+      "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
 ];
 
@@ -107,27 +113,34 @@ export default function Services() {
   const [services, setServices] = useState(defaultServices);
   const [activeIndex, setActiveIndex] = useState(null);
 
-  // ✅ Fetch from backend if available
+  // ✅ Automatically use live API on Netlify, local API in dev
+  const API_BASE =
+    window.location.hostname === "localhost"
+      ? "http://localhost:5000"
+      : "https://victorlabs.onrender.com";
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/services");
+        const res = await fetch(`${API_BASE}/api/services`);
         if (!res.ok) throw new Error("Failed to fetch services");
         const data = await res.json();
 
         if (Array.isArray(data) && data.length > 0) {
-          // merge or replace the static data
-          setServices([...defaultServices, ...data.map(service => ({
-            title: service.name,
-            description: service.description,
-            image: service.image_url,
-            points: [
-              "Professional service",
-              "Client-focused approach",
-              "Scalable & secure design",
-              "Delivered on time",
-            ],
-          }))]);
+          setServices([
+            ...defaultServices,
+            ...data.map((service) => ({
+              title: service.name,
+              description: service.description,
+              image: service.image_url,
+              points: [
+                "Professional service",
+                "Client-focused approach",
+                "Scalable & secure design",
+                "Delivered on time",
+              ],
+            })),
+          ]);
         }
       } catch (error) {
         console.warn("⚠️ Using static fallback services:", error.message);
@@ -135,24 +148,32 @@ export default function Services() {
     };
 
     fetchServices();
-  }, []);
+  }, [API_BASE]);
 
   return (
     <section className="page services-section">
       <h2 className="section-title">Our Services</h2>
       <p className="section-subtitle">
-        We provide a wide range of software and IT services tailored to help your business succeed.
+        We provide a wide range of software and IT services tailored to help
+        your business succeed.
       </p>
       <div className="services-grid">
         {services.map((service, index) => (
           <div
             key={index}
-            className={`service-block ${activeIndex === index ? "active" : ""}`}
-            onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+            className={`service-block ${
+              activeIndex === index ? "active" : ""
+            }`}
+            onClick={() =>
+              setActiveIndex(activeIndex === index ? null : index)
+            }
           >
             <div className="service-image">
               <img
-                src={service.image || "https://via.placeholder.com/600x400?text=Service+Image"}
+                src={
+                  service.image ||
+                  "https://via.placeholder.com/600x400?text=Service+Image"
+                }
                 alt={service.title}
               />
             </div>

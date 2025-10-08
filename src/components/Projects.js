@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/projects.css";
 
-const API = "http://localhost:5000/api";
+const API = "https://victorlabs.onrender.com";
 
 // --- Static local projects ---
 const staticProjects = [
@@ -80,7 +80,7 @@ export default function Projects() {
 
   // --- Fetch live projects from backend ---
   useEffect(() => {
-    fetch(`${API}/projects`)
+    fetch(`${API_BASE}/api/projects`)
       .then((res) => res.json())
       .then((data) => {
         setDbProjects(data);
