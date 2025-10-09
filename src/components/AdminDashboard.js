@@ -1,63 +1,57 @@
 import React, { useState, useEffect } from 'react';
 
-const API = 'https://victorlabs.onrender.com/api';
+const API = 'http://localhost:5000/api';
 
-export default function AdminDashboard({ token }) {
+export default function AdminDashboard() {
   const [view, setView] = useState('projects');
   const [projects, setProjects] = useState([]);
   const [services, setServices] = useState([]);
   const [about, setAbout] = useState('');
   const [form, setForm] = useState({ title: '', name: '', description: '', image_url: '' });
 
-  // Common headers with token
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-
   // Fetch all data on mount
   useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${API}/projects`);
+        const data = await res.json();
+        setProjects(data);
+      } catch (error) {
+        console.error('Error fetching projects:', error.message);
+      }
+    };
+
+    const fetchServices = async () => {
+      try {
+        const res = await fetch(`${API}/services`);
+        const data = await res.json();
+        setServices(data);
+      } catch (error) {
+        console.error('Error fetching services:', error.message);
+      }
+    };
+
+    const fetchAbout = async () => {
+      try {
+        const res = await fetch(`${API}/about`);
+        const data = await res.json();
+        setAbout(data[0]?.content || '');
+      } catch (error) {
+        console.error('Error fetching about info:', error.message);
+      }
+    };
+
     fetchProjects();
     fetchServices();
     fetchAbout();
-  }, []);
-
-  const fetchProjects = async () => {
-    try {
-      const res = await fetch(`${API}/projects`, { headers });
-      const data = await res.json();
-      setProjects(data);
-    } catch (err) {
-      console.error('Error fetching projects:', err);
-    }
-  };
-
-  const fetchServices = async () => {
-    try {
-      const res = await fetch(`${API}/services`, { headers });
-      const data = await res.json();
-      setServices(data);
-    } catch (err) {
-      console.error('Error fetching services:', err);
-    }
-  };
-
-  const fetchAbout = async () => {
-    try {
-      const res = await fetch(`${API}/about`, { headers });
-      const data = await res.json();
-      setAbout(data[0]?.content || '');
-    } catch (err) {
-      console.error('Error fetching about info:', err);
-    }
-  };
+  }, []); // warning-free now
 
   // Add new project
   const addProject = async () => {
     try {
       const res = await fetch(`${API}/projects`, {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: form.title,
           description: form.description,
@@ -67,11 +61,12 @@ export default function AdminDashboard({ token }) {
       });
       if (res.ok) {
         alert('✅ Project added!');
-        fetchProjects();
         setForm({ title: '', name: '', description: '', image_url: '' });
+        const data = await res.json();
+        setProjects(prev => [data, ...prev]);
       }
-    } catch (err) {
-      console.error('Error adding project:', err);
+    } catch (error) {
+      console.error('Error adding project:', error.message);
     }
   };
 
@@ -80,7 +75,7 @@ export default function AdminDashboard({ token }) {
     try {
       const res = await fetch(`${API}/services`, {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name,
           description: form.description,
@@ -89,11 +84,12 @@ export default function AdminDashboard({ token }) {
       });
       if (res.ok) {
         alert('✅ Service added!');
-        fetchServices();
         setForm({ title: '', name: '', description: '', image_url: '' });
+        const data = await res.json();
+        setServices(prev => [data, ...prev]);
       }
-    } catch (err) {
-      console.error('Error adding service:', err);
+    } catch (error) {
+      console.error('Error adding service:', error.message);
     }
   };
 
@@ -102,12 +98,12 @@ export default function AdminDashboard({ token }) {
     try {
       const res = await fetch(`${API}/about`, {
         method: 'PUT',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: about }),
       });
       if (res.ok) alert('✅ About updated!');
-    } catch (err) {
-      console.error('Error updating about section:', err);
+    } catch (error) {
+      console.error('Error updating about:', error.message);
     }
   };
 
@@ -115,13 +111,13 @@ export default function AdminDashboard({ token }) {
   const deleteProject = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project?')) return;
     try {
-      const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE', headers });
+      const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
       if (res.ok) {
         alert('🗑️ Project deleted!');
-        fetchProjects();
+        setProjects(prev => prev.filter(p => p.id !== id));
       }
-    } catch (err) {
-      console.error('Error deleting project:', err);
+    } catch (error) {
+      console.error('Error deleting project:', error.message);
     }
   };
 
@@ -129,13 +125,13 @@ export default function AdminDashboard({ token }) {
   const deleteService = async (id) => {
     if (!window.confirm('Are you sure you want to delete this service?')) return;
     try {
-      const res = await fetch(`${API}/services/${id}`, { method: 'DELETE', headers });
+      const res = await fetch(`${API}/services/${id}`, { method: 'DELETE' });
       if (res.ok) {
         alert('🗑️ Service deleted!');
-        fetchServices();
+        setServices(prev => prev.filter(s => s.id !== id));
       }
-    } catch (err) {
-      console.error('Error deleting service:', err);
+    } catch (error) {
+      console.error('Error deleting service:', error.message);
     }
   };
 
