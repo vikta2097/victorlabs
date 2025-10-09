@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://victorlabs.onrender.com/api';
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ token }) {
   const [view, setView] = useState('projects');
   const [projects, setProjects] = useState([]);
   const [services, setServices] = useState([]);
   const [about, setAbout] = useState('');
   const [form, setForm] = useState({ title: '', name: '', description: '', image_url: '' });
+
+  // Common headers with token
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
 
   // Fetch all data on mount
   useEffect(() => {
@@ -17,87 +23,119 @@ export default function AdminDashboard() {
   }, []);
 
   const fetchProjects = async () => {
-    const res = await fetch(`${API}/projects`);
-    const data = await res.json();
-    setProjects(data);
+    try {
+      const res = await fetch(`${API}/projects`, { headers });
+      const data = await res.json();
+      setProjects(data);
+    } catch (err) {
+      console.error('Error fetching projects:', err);
+    }
   };
 
   const fetchServices = async () => {
-    const res = await fetch(`${API}/services`);
-    const data = await res.json();
-    setServices(data);
+    try {
+      const res = await fetch(`${API}/services`, { headers });
+      const data = await res.json();
+      setServices(data);
+    } catch (err) {
+      console.error('Error fetching services:', err);
+    }
   };
 
   const fetchAbout = async () => {
-    const res = await fetch(`${API}/about`);
-    const data = await res.json();
-    setAbout(data[0]?.content || '');
+    try {
+      const res = await fetch(`${API}/about`, { headers });
+      const data = await res.json();
+      setAbout(data[0]?.content || '');
+    } catch (err) {
+      console.error('Error fetching about info:', err);
+    }
   };
 
   // Add new project
   const addProject = async () => {
-    const res = await fetch(`${API}/projects`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: form.title,
-        description: form.description,
-        image_url: form.image_url,
-        date_added: new Date(),
-      }),
-    });
-    if (res.ok) {
-      alert('✅ Project added!');
-      fetchProjects();
-      setForm({ title: '', name: '', description: '', image_url: '' });
+    try {
+      const res = await fetch(`${API}/projects`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          title: form.title,
+          description: form.description,
+          image_url: form.image_url,
+          date_added: new Date(),
+        }),
+      });
+      if (res.ok) {
+        alert('✅ Project added!');
+        fetchProjects();
+        setForm({ title: '', name: '', description: '', image_url: '' });
+      }
+    } catch (err) {
+      console.error('Error adding project:', err);
     }
   };
 
   // Add new service
   const addService = async () => {
-    const res = await fetch(`${API}/services`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: form.name,
-        description: form.description,
-        image_url: form.image_url,
-      }),
-    });
-    if (res.ok) {
-      alert('✅ Service added!');
-      fetchServices();
-      setForm({ title: '', name: '', description: '', image_url: '' });
+    try {
+      const res = await fetch(`${API}/services`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          name: form.name,
+          description: form.description,
+          image_url: form.image_url,
+        }),
+      });
+      if (res.ok) {
+        alert('✅ Service added!');
+        fetchServices();
+        setForm({ title: '', name: '', description: '', image_url: '' });
+      }
+    } catch (err) {
+      console.error('Error adding service:', err);
     }
   };
 
   // Update about section
   const updateAbout = async () => {
-    const res = await fetch(`${API}/about`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: about }),
-    });
-    if (res.ok) alert('✅ About updated!');
+    try {
+      const res = await fetch(`${API}/about`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({ content: about }),
+      });
+      if (res.ok) alert('✅ About updated!');
+    } catch (err) {
+      console.error('Error updating about section:', err);
+    }
   };
 
   // Delete project
   const deleteProject = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project?')) return;
-    const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      alert('🗑️ Project deleted!');
-      fetchProjects();
+    try {
+      const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE', headers });
+      if (res.ok) {
+        alert('🗑️ Project deleted!');
+        fetchProjects();
+      }
+    } catch (err) {
+      console.error('Error deleting project:', err);
     }
   };
 
   // Delete service
   const deleteService = async (id) => {
     if (!window.confirm('Are you sure you want to delete this service?')) return;
-    const res = await fetch(`${API}/services/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      alert('🗑️ Service deleted!');
-      fetchServices();
+    try {
+      const res = await fetch(`${API}/services/${id}`, { method: 'DELETE', headers });
+      if (res.ok) {
+        alert('🗑️ Service deleted!');
+        fetchServices();
+      }
+    } catch (err) {
+      console.error('Error deleting service:', err);
     }
   };
 
