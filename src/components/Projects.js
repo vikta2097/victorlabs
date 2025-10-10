@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/projects.css";
+import { API_BASE } from "../config";
+
 
 const API = "https://victorlabs.onrender.com";
 
