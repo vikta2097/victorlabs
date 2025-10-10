@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import pkg from 'pg';
 import dotenv from 'dotenv';
-import authRoutes from './backend/routes/auth.js';
+import authRoutes from './routes/auth.js';
 
 
 dotenv.config();
