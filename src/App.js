@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Home from './components/Home';
@@ -12,14 +12,20 @@ import AdminDashboard from './components/AdminDashboard';
 import Login from './components/login';
 
 function App() {
-  // State to track admin authentication
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
-  // Example: check localStorage for a saved token/session
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (token) setIsAdminAuthenticated(true);
   }, []);
+
+  // Handle login success from Login component
+  const handleAdminLogin = (data) => {
+    localStorage.setItem("adminToken", data.token);
+    setIsAdminAuthenticated(true);
+    navigate("/admin"); // redirect to dashboard
+  };
 
   return (
     <Routes>
@@ -44,10 +50,10 @@ function App() {
       />
       <Route
         path="/admin/login"
-        element={<Login setIsAdminAuthenticated={setIsAdminAuthenticated} />}
+        element={<Login onLogin={handleAdminLogin} />}
       />
 
-      {/* Fallback for unknown routes */}
+      {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
