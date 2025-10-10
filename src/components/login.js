@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const API = 'https://victorlabs.onrender.com/api/auth'; // your backend URL
+const API ='https://victorlabs.onrender.com/api/auth'; // your backend URL
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -16,10 +16,11 @@ export default function Login({ onLogin }) {
 
     try {
       const res = await fetch(`${API}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, password }),
+});
+
 
       const data = await res.json();
       if (!res.ok) {
