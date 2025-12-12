@@ -32,8 +32,15 @@ pool.on('error', (err) => {
 })();
 
 const app = express();
-app.use(cors());
+
+// --- CORS CONFIG ---
+app.use(cors({
+  origin: ["https://victorlabs.netlify.app", "http://localhost:3000"]
+}));
+
 app.use(express.json());
+
+// --- AUTH ROUTES ---
 app.use('/api/auth', authRoutes);
 
 // ===== CREATE DEFAULT ADMIN =====
@@ -79,7 +86,7 @@ app.post('/api/about', async (req, res) => {
     const result = await pool.query(
       `INSERT INTO about (title, content, image_url, is_reverse, order_index)
        VALUES ($1,$2,$3,$4,$5) RETURNING *`,
-      [title, content, image_url, is_reverse || false, order_index || 0]
+      [title, content, image_url, is_reverse ?? false, order_index ?? 0]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -96,7 +103,7 @@ app.put('/api/about/:id', async (req, res) => {
       `UPDATE about
        SET title=$1, content=$2, image_url=$3, is_reverse=$4, order_index=$5
        WHERE id=$6`,
-      [title, content, image_url, is_reverse || false, order_index || 0, id]
+      [title, content, image_url, is_reverse ?? false, order_index ?? 0, id]
     );
     res.json({ success: true, message: 'About section updated successfully.' });
   } catch (error) {
@@ -130,15 +137,7 @@ app.get('/api/projects', async (req, res) => {
 app.post('/api/projects', async (req, res) => {
   try {
     const {
-      title,
-      category,
-      description,
-      image_url,
-      features,
-      tech,
-      github,
-      live,
-      date_added,
+      title, category, description, image_url, features, tech, github, live, date_added
     } = req.body;
 
     const result = await pool.query(
@@ -146,15 +145,9 @@ app.post('/api/projects', async (req, res) => {
        (title, category, description, image_url, features, tech, github, live, date_added)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
       [
-        title,
-        category,
-        description,
-        image_url,
-        features || [],
-        tech || [],
-        github || null,
-        live || null,
-        date_added || new Date(),
+        title, category, description, image_url,
+        features || [], tech || [], github || null, live || null,
+        date_added || new Date()
       ]
     );
 
@@ -167,16 +160,7 @@ app.post('/api/projects', async (req, res) => {
 
 app.put('/api/projects/:id', async (req, res) => {
   try {
-    const {
-      title,
-      category,
-      description,
-      image_url,
-      features,
-      tech,
-      github,
-      live,
-    } = req.body;
+    const { title, category, description, image_url, features, tech, github, live } = req.body;
     const { id } = req.params;
 
     await pool.query(
@@ -251,7 +235,7 @@ app.delete('/api/services/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM services WHERE id=$1', [id]);
-    res.json({ success: true, message: 'Service deleted successfully.' });
+    res.json({ success: true, message: 'Service deleted successfully' });
   } catch (error) {
     console.error('Error deleting service:', error.message);
     res.status(500).json({ error: 'Server error' });
@@ -259,13 +243,8 @@ app.delete('/api/services/:id', async (req, res) => {
 });
 
 // --- ROOT & TEST ---
-app.get('/', (req, res) => {
-  res.send('🚀 Portfolio API running successfully!');
-});
-
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'API route test successful' });
-});
+app.get('/', (req, res) => res.send('🚀 Portfolio API running successfully!'));
+app.get('/api/test', (req, res) => res.json({ message: 'API route test successful' }));
 
 // --- START SERVER ---
 const PORT = process.env.PORT || 5000;
