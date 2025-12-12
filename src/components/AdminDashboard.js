@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-const API = 'https://victorlabs.onrender.com/api';
+import { API_BASE } from '../config';
 
 export default function AdminDashboard() {
   const [view, setView] = useState('projects');
@@ -47,7 +46,7 @@ export default function AdminDashboard() {
   // --- Fetch functions ---
   const fetchProjects = async () => {
     try {
-      const res = await fetch(`${API}/projects`);
+      const res = await fetch(`${API_BASE}/api/projects`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setProjects(data);
@@ -59,7 +58,7 @@ export default function AdminDashboard() {
 
   const fetchServices = async () => {
     try {
-      const res = await fetch(`${API}/services`);
+      const res = await fetch(`${API_BASE}/api/services`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setServices(data);
@@ -71,7 +70,7 @@ export default function AdminDashboard() {
 
   const fetchAbout = async () => {
     try {
-      const res = await fetch(`${API}/about`);
+      const res = await fetch(`${API_BASE}/api/about`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setAboutSections(data);
@@ -90,7 +89,7 @@ export default function AdminDashboard() {
         tech: projectForm.tech ? projectForm.tech.split(',').map(t => t.trim()) : [],
         date_added: new Date()
       };
-      const res = await fetch(`${API}/projects`, {
+      const res = await fetch(`${API_BASE}/api/projects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -120,7 +119,7 @@ export default function AdminDashboard() {
   const deleteProject = async id => {
     if (!window.confirm('Delete this project?')) return;
     try {
-      const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/projects/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setProjects(prev => prev.filter(p => p.id !== id));
       alert('✅ Project deleted successfully');
@@ -136,7 +135,7 @@ export default function AdminDashboard() {
         ...serviceForm,
         points: serviceForm.points ? serviceForm.points.split(',').map(p => p.trim()) : []
       };
-      const res = await fetch(`${API}/services`, {
+      const res = await fetch(`${API_BASE}/api/services`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -157,7 +156,7 @@ export default function AdminDashboard() {
   const deleteService = async id => {
     if (!window.confirm('Delete this service?')) return;
     try {
-      const res = await fetch(`${API}/services/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/services/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setServices(prev => prev.filter(s => s.id !== id));
       alert('✅ Service deleted successfully');
@@ -170,7 +169,7 @@ export default function AdminDashboard() {
   const addAboutSection = async () => {
     try {
       const body = { ...aboutForm, order_index: Number(aboutForm.order_index) };
-      const res = await fetch(`${API}/about`, {
+      const res = await fetch(`${API_BASE}/api/about`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -191,7 +190,7 @@ export default function AdminDashboard() {
   const deleteAboutSection = async id => {
     if (!window.confirm('Delete this about section?')) return;
     try {
-      const res = await fetch(`${API}/about/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/about/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setAboutSections(prev => prev.filter(a => a.id !== id));
       alert('✅ About section deleted successfully');
