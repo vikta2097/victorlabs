@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Home from './components/Home';
@@ -8,27 +8,20 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import TermsAndConditions from './components/TermsAndConditions';
 import PrivacyPolicy from './components/PrivacyPolicy';
-import AdminDashboard from './components/AdminDashboard';
-import Login from './components/login';
+import Admin from './components/admin';
 
 function App() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
-  const navigate = useNavigate();
 
+  // Check token on mount
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (token) setIsAdminAuthenticated(true);
   }, []);
 
-  // Handle login success from Login component
-  const handleAdminLogin = (data) => {
-    localStorage.setItem("adminToken", data.token);
-    setIsAdminAuthenticated(true);
-    navigate("/admin"); // redirect to dashboard
-  };
-
   return (
     <Routes>
+      {/* Public routes */}
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/services" element={<Services />} />
@@ -37,20 +30,12 @@ function App() {
       <Route path="/terms" element={<TermsAndConditions />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
 
-      {/* Admin routes */}
+      {/* Admin route */}
       <Route
-        path="/admin"
+        path="/admin/*"
         element={
-          isAdminAuthenticated ? (
-            <AdminDashboard />
-          ) : (
-            <Navigate to="/admin/login" replace />
-          )
+          isAdminAuthenticated ? <Admin /> : <Navigate to="/admin/login" replace />
         }
-      />
-      <Route
-        path="/admin/login"
-        element={<Login onLogin={handleAdminLogin} />}
       />
 
       {/* Fallback */}

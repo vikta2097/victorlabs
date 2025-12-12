@@ -14,6 +14,7 @@
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.1",
     "react-scripts": "^5.0.1",
+    "react-toastify": "^11.0.5",
     "web-vitals": "^2.1.4"
   },
   "homepage": "http://.",
@@ -44,7 +45,6 @@
   "description": "VictorLabs personal portfolio",
   "author": "Vikta Mwangi",
   "main": "index.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vikta2097/victorlabs.git"

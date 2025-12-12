@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API = 'https://victorlabs.onrender.com/api';
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ token, onLogout }) {
   const [view, setView] = useState('projects');
 
   // Projects, Services, About sections
@@ -52,7 +54,7 @@ export default function AdminDashboard() {
       setProjects(data);
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to fetch projects');
+      toast.error('❌ Failed to fetch projects');
     }
   };
 
@@ -63,7 +65,7 @@ export default function AdminDashboard() {
       setServices(data);
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to fetch services');
+      toast.error('❌ Failed to fetch services');
     }
   };
 
@@ -74,7 +76,7 @@ export default function AdminDashboard() {
       setAboutSections(data);
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to fetch about sections');
+      toast.error('❌ Failed to fetch about sections');
     }
   };
 
@@ -104,10 +106,10 @@ export default function AdminDashboard() {
         github: '',
         live: ''
       });
-      alert('✅ Project added successfully');
+      toast.success('✅ Project added successfully');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to add project');
+      toast.error('❌ Failed to add project');
     }
   };
 
@@ -116,10 +118,10 @@ export default function AdminDashboard() {
     try {
       await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
       setProjects(prev => prev.filter(p => p.id !== id));
-      alert('✅ Project deleted successfully');
+      toast.success('✅ Project deleted successfully');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to delete project');
+      toast.error('❌ Failed to delete project');
     }
   };
 
@@ -137,10 +139,10 @@ export default function AdminDashboard() {
       const data = await res.json();
       setServices(prev => [data, ...prev]);
       setServiceForm({ name: '', description: '', points: '', image_url: '' });
-      alert('✅ Service added successfully');
+      toast.success('✅ Service added successfully');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to add service');
+      toast.error('❌ Failed to add service');
     }
   };
 
@@ -149,10 +151,10 @@ export default function AdminDashboard() {
     try {
       await fetch(`${API}/services/${id}`, { method: 'DELETE' });
       setServices(prev => prev.filter(s => s.id !== id));
-      alert('✅ Service deleted successfully');
+      toast.success('✅ Service deleted successfully');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to delete service');
+      toast.error('❌ Failed to delete service');
     }
   };
 
@@ -170,10 +172,10 @@ export default function AdminDashboard() {
       const data = await res.json();
       setAboutSections(prev => [...prev, data]);
       setAboutForm({ title: '', content: '', image_url: '', is_reverse: false, order_index: 0 });
-      alert('✅ About section added successfully');
+      toast.success('✅ About section added successfully');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to add about section');
+      toast.error('❌ Failed to add about section');
     }
   };
 
@@ -182,17 +184,24 @@ export default function AdminDashboard() {
     try {
       await fetch(`${API}/about/${id}`, { method: 'DELETE' });
       setAboutSections(prev => prev.filter(a => a.id !== id));
-      alert('✅ About section deleted successfully');
+      toast.success('✅ About section deleted successfully');
     } catch (err) {
       console.error(err);
-      alert('❌ Failed to delete about section');
+      toast.error('❌ Failed to delete about section');
     }
   };
 
   // --- JSX ---
   return (
     <div style={{ padding: 30, fontFamily: 'Arial' }}>
-      <h1>Admin Dashboard</h1>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Admin Dashboard</h1>
+        <button style={{ ...btn, background: '#6c757d' }} onClick={onLogout}>
+          Logout
+        </button>
+      </div>
+
       <div style={{ marginBottom: 20 }}>
         <button onClick={() => setView('projects')} style={btn}>Projects</button>
         <button onClick={() => setView('services')} style={btn}>Services</button>
