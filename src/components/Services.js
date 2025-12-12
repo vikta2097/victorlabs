@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../styles/services.css";
+import { API_BASE } from "../config";
 
-// ✅ Default static data (fallback)
+// ✅ Complete static services
 const defaultServices = [
   {
     title: "Custom Software Development",
@@ -113,34 +114,32 @@ export default function Services() {
   const [services, setServices] = useState(defaultServices);
   const [activeIndex, setActiveIndex] = useState(null);
 
-  // ✅ Automatically use live API on Netlify, local API in dev
-  const API_BASE =
-    window.location.hostname === "localhost"
-      ? "http://localhost:5000"
-      : "https://victorlabs.onrender.com";
-
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/services`);
+        const res = await fetch(`${API_BASE}/services`);
         if (!res.ok) throw new Error("Failed to fetch services");
         const data = await res.json();
 
         if (Array.isArray(data) && data.length > 0) {
-          setServices([
-            ...defaultServices,
-            ...data.map((service) => ({
-              title: service.name,
-              description: service.description,
-              image: service.image_url,
-              points: [
-                "Professional service",
-                "Client-focused approach",
-                "Scalable & secure design",
-                "Delivered on time",
-              ],
-            })),
-          ]);
+          const liveServices = data.map((service) => ({
+            title: service.name,
+            description: service.description,
+            image:
+              service.image_url ||
+              "https://via.placeholder.com/600x400?text=Service+Image",
+            points: service.points && service.points.length > 0
+              ? service.points
+              : [
+                  "Professional service",
+                  "Client-focused approach",
+                  "Scalable & secure design",
+                  "Delivered on time",
+                ],
+          }));
+
+          // Merge static + live services
+          setServices([...defaultServices, ...liveServices]);
         }
       } catch (error) {
         console.warn("⚠️ Using static fallback services:", error.message);
@@ -148,7 +147,7 @@ export default function Services() {
     };
 
     fetchServices();
-  }, [API_BASE]);
+  }, []);
 
   return (
     <section className="page services-section">
@@ -161,21 +160,13 @@ export default function Services() {
         {services.map((service, index) => (
           <div
             key={index}
-            className={`service-block ${
-              activeIndex === index ? "active" : ""
-            }`}
+            className={`service-block ${activeIndex === index ? "active" : ""}`}
             onClick={() =>
               setActiveIndex(activeIndex === index ? null : index)
             }
           >
             <div className="service-image">
-              <img
-                src={
-                  service.image ||
-                  "https://via.placeholder.com/600x400?text=Service+Image"
-                }
-                alt={service.title}
-              />
+              <img src={service.image} alt={service.title} />
             </div>
             <div className="service-text">
               <h3 className="service-title">{service.title}</h3>

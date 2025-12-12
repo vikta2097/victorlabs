@@ -92,10 +92,13 @@ export default function Projects() {
   }, []);
 
   // --- Merge static + database projects ---
-  const allProjects = [...dbProjects, ...staticProjects];
+  const allProjects = [...staticProjects, ...dbProjects];
 
   return (
-    <section className="projects-section page projects" aria-labelledby="projects-title">
+    <section
+      className="projects-section page projects"
+      aria-labelledby="projects-title"
+    >
       <h2 id="projects-title">Projects</h2>
 
       {loading && <p>Loading live projects...</p>}
@@ -113,11 +116,12 @@ export default function Projects() {
             </div>
 
             <div className="project-body">
-              <span className="project-category">{project.category || "Web App"}</span>
+              <span className="project-category">
+                {project.category || "Web App"}
+              </span>
               <h3 className="project-title">{project.title}</h3>
               <p className="project-desc">{project.description}</p>
 
-              {/* Features (optional, static only) */}
               {project.features && (
                 <ul className="project-features">
                   {project.features.map((f, i) => (
@@ -126,7 +130,6 @@ export default function Projects() {
                 </ul>
               )}
 
-              {/* Tech (optional) */}
               {project.tech && (
                 <ul className="project-tech">
                   {project.tech.map((t, i) => (
@@ -137,7 +140,6 @@ export default function Projects() {
                 </ul>
               )}
 
-              {/* Links */}
               <div className="project-ctas">
                 {project.live && (
                   <a

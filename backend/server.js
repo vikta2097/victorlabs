@@ -36,7 +36,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 
-
 // ===== CREATE DEFAULT ADMIN =====
 const ensureDefaultAdmin = async () => {
   try {
@@ -46,14 +45,11 @@ const ensureDefaultAdmin = async () => {
 
     if (result.rows.length === 0) {
       console.log("⚠️ Creating default admin...");
-
       const hash = await bcrypt.hash("vikta2097", 10);
-
       await pool.query(
         "INSERT INTO usercredentials (fullname, email, password_hash, role) VALUES ($1, $2, $3, $4)",
-        ["System Admin", "thigamwangi2027@gmail.com", hash, "admin"]
+        ["vikta mwangi", "thigamwangi2027@gmail.com", hash, "admin"]
       );
-
       console.log("✅ Default admin created");
     } else {
       console.log("✅ Admin already exists");
@@ -66,12 +62,10 @@ const ensureDefaultAdmin = async () => {
 // Call it at startup
 ensureDefaultAdmin();
 
-
-// --- API ROUTES ---
-
+// --- ABOUT SECTIONS ---
 app.get('/api/about', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM about LIMIT 1');
+    const result = await pool.query('SELECT * FROM about ORDER BY order_index ASC');
     res.json(result.rows);
   } catch (error) {
     console.error('Error fetching about info:', error.message);
@@ -79,19 +73,50 @@ app.get('/api/about', async (req, res) => {
   }
 });
 
-// Update About Info
-app.put('/api/about', async (req, res) => {
+app.post('/api/about', async (req, res) => {
   try {
-    const { content } = req.body;
-    await pool.query('UPDATE about SET content=$1 WHERE id=1', [content]);
-    res.json({ success: true, message: 'About section updated successfully.' });
+    const { title, content, image_url, is_reverse, order_index } = req.body;
+    const result = await pool.query(
+      `INSERT INTO about (title, content, image_url, is_reverse, order_index)
+       VALUES ($1,$2,$3,$4,$5) RETURNING *`,
+      [title, content, image_url, is_reverse || false, order_index || 0]
+    );
+    res.json(result.rows[0]);
   } catch (error) {
-    console.error('Error updating about info:', error.message);
+    console.error('Error adding about section:', error.message);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Fetch All Projects
+app.put('/api/about/:id', async (req, res) => {
+  try {
+    const { title, content, image_url, is_reverse, order_index } = req.body;
+    const { id } = req.params;
+    await pool.query(
+      `UPDATE about
+       SET title=$1, content=$2, image_url=$3, is_reverse=$4, order_index=$5
+       WHERE id=$6`,
+      [title, content, image_url, is_reverse || false, order_index || 0, id]
+    );
+    res.json({ success: true, message: 'About section updated successfully.' });
+  } catch (error) {
+    console.error('Error updating about section:', error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.delete('/api/about/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query('DELETE FROM about WHERE id=$1', [id]);
+    res.json({ success: true, message: 'About section deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting about section:', error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// --- PROJECTS ---
 app.get('/api/projects', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM projects ORDER BY id DESC');
@@ -102,15 +127,37 @@ app.get('/api/projects', async (req, res) => {
   }
 });
 
-// Add New Project
 app.post('/api/projects', async (req, res) => {
   try {
-    const { title, description, image_url, date_added } = req.body;
+    const {
+      title,
+      category,
+      description,
+      image_url,
+      features,
+      tech,
+      github,
+      live,
+      date_added,
+    } = req.body;
+
     const result = await pool.query(
-      `INSERT INTO projects (title, description, image_url, date_added)
-       VALUES ($1, $2, $3, $4) RETURNING *`,
-      [title, description, image_url, date_added || new Date()]
+      `INSERT INTO projects 
+       (title, category, description, image_url, features, tech, github, live, date_added)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+      [
+        title,
+        category,
+        description,
+        image_url,
+        features || [],
+        tech || [],
+        github || null,
+        live || null,
+        date_added || new Date(),
+      ]
     );
+
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Error adding project:', error.message);
@@ -118,15 +165,27 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
-// Update Project
 app.put('/api/projects/:id', async (req, res) => {
   try {
-    const { title, description, image_url } = req.body;
+    const {
+      title,
+      category,
+      description,
+      image_url,
+      features,
+      tech,
+      github,
+      live,
+    } = req.body;
     const { id } = req.params;
+
     await pool.query(
-      'UPDATE projects SET title=$1, description=$2, image_url=$3 WHERE id=$4',
-      [title, description, image_url, id]
+      `UPDATE projects
+       SET title=$1, category=$2, description=$3, image_url=$4, features=$5, tech=$6, github=$7, live=$8
+       WHERE id=$9`,
+      [title, category, description, image_url, features || [], tech || [], github || null, live || null, id]
     );
+
     res.json({ success: true, message: 'Project updated successfully.' });
   } catch (error) {
     console.error('Error updating project:', error.message);
@@ -134,7 +193,6 @@ app.put('/api/projects/:id', async (req, res) => {
   }
 });
 
-// Delete Project
 app.delete('/api/projects/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -146,7 +204,7 @@ app.delete('/api/projects/:id', async (req, res) => {
   }
 });
 
-// Fetch All Services
+// --- SERVICES ---
 app.get('/api/services', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM services ORDER BY id DESC');
@@ -157,14 +215,13 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
-// Add Service
 app.post('/api/services', async (req, res) => {
   try {
-    const { name, description, image_url } = req.body;
+    const { name, description, points, image_url } = req.body;
     const result = await pool.query(
-      `INSERT INTO services (name, description, image_url)
-       VALUES ($1, $2, $3) RETURNING *`,
-      [name, description, image_url]
+      `INSERT INTO services (name, description, points, image_url)
+       VALUES ($1,$2,$3,$4) RETURNING *`,
+      [name, description, points || [], image_url]
     );
     res.json(result.rows[0]);
   } catch (error) {
@@ -173,14 +230,15 @@ app.post('/api/services', async (req, res) => {
   }
 });
 
-// Update Service
 app.put('/api/services/:id', async (req, res) => {
   try {
-    const { name, description, image_url } = req.body;
+    const { name, description, points, image_url } = req.body;
     const { id } = req.params;
     await pool.query(
-      'UPDATE services SET name=$1, description=$2, image_url=$3 WHERE id=$4',
-      [name, description, image_url, id]
+      `UPDATE services
+       SET name=$1, description=$2, points=$3, image_url=$4
+       WHERE id=$5`,
+      [name, description, points || [], image_url, id]
     );
     res.json({ success: true, message: 'Service updated successfully.' });
   } catch (error) {
@@ -189,7 +247,6 @@ app.put('/api/services/:id', async (req, res) => {
   }
 });
 
-// Delete Service
 app.delete('/api/services/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -201,8 +258,7 @@ app.delete('/api/services/:id', async (req, res) => {
   }
 });
 
-
-// --- ROOT ENDPOINT ---
+// --- ROOT & TEST ---
 app.get('/', (req, res) => {
   res.send('🚀 Portfolio API running successfully!');
 });

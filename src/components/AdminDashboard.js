@@ -1,172 +1,201 @@
 import React, { useState, useEffect } from 'react';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://victorlabs.onrender.com/api';
 
 export default function AdminDashboard() {
   const [view, setView] = useState('projects');
+
+  // Projects, Services, About sections
   const [projects, setProjects] = useState([]);
   const [services, setServices] = useState([]);
-  const [about, setAbout] = useState('');
-  const [form, setForm] = useState({ title: '', name: '', description: '', image_url: '' });
+  const [aboutSections, setAboutSections] = useState([]);
+
+  // Forms
+  const [projectForm, setProjectForm] = useState({
+    title: '',
+    category: '',
+    description: '',
+    image_url: '',
+    features: '',
+    tech: '',
+    github: '',
+    live: ''
+  });
+
+  const [serviceForm, setServiceForm] = useState({
+    name: '',
+    description: '',
+    points: '',
+    image_url: ''
+  });
+
+  const [aboutForm, setAboutForm] = useState({
+    title: '',
+    content: '',
+    image_url: '',
+    is_reverse: false,
+    order_index: 0
+  });
 
   // Fetch all data on mount
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await fetch(`${API}/projects`);
-        const data = await res.json();
-        setProjects(data);
-      } catch (error) {
-        console.error('Error fetching projects:', error.message);
-      }
-    };
-
-    const fetchServices = async () => {
-      try {
-        const res = await fetch(`${API}/services`);
-        const data = await res.json();
-        setServices(data);
-      } catch (error) {
-        console.error('Error fetching services:', error.message);
-      }
-    };
-
-    const fetchAbout = async () => {
-      try {
-        const res = await fetch(`${API}/about`);
-        const data = await res.json();
-        setAbout(data[0]?.content || '');
-      } catch (error) {
-        console.error('Error fetching about info:', error.message);
-      }
-    };
-
     fetchProjects();
     fetchServices();
     fetchAbout();
-  }, []); // warning-free now
+  }, []);
 
-  // Add new project
+  // --- Fetch functions ---
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(`${API}/projects`);
+      const data = await res.json();
+      setProjects(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchServices = async () => {
+    try {
+      const res = await fetch(`${API}/services`);
+      const data = await res.json();
+      setServices(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchAbout = async () => {
+    try {
+      const res = await fetch(`${API}/about`);
+      const data = await res.json();
+      setAboutSections(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // --- CRUD functions ---
   const addProject = async () => {
     try {
+      const body = {
+        ...projectForm,
+        features: projectForm.features.split(',').map(f => f.trim()),
+        tech: projectForm.tech.split(',').map(t => t.trim()),
+        date_added: new Date()
+      };
       const res = await fetch(`${API}/projects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: form.title,
-          description: form.description,
-          image_url: form.image_url,
-          date_added: new Date(),
-        }),
+        body: JSON.stringify(body)
       });
-      if (res.ok) {
-        alert('✅ Project added!');
-        setForm({ title: '', name: '', description: '', image_url: '' });
-        const data = await res.json();
-        setProjects(prev => [data, ...prev]);
-      }
-    } catch (error) {
-      console.error('Error adding project:', error.message);
+      const data = await res.json();
+      setProjects(prev => [data, ...prev]);
+      setProjectForm({
+        title: '',
+        category: '',
+        description: '',
+        image_url: '',
+        features: '',
+        tech: '',
+        github: '',
+        live: ''
+      });
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // Add new service
+  const deleteProject = async id => {
+    if (!window.confirm('Delete this project?')) return;
+    try {
+      await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
+      setProjects(prev => prev.filter(p => p.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const addService = async () => {
     try {
+      const body = {
+        ...serviceForm,
+        points: serviceForm.points.split(',').map(p => p.trim())
+      };
       const res = await fetch(`${API}/services`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          description: form.description,
-          image_url: form.image_url,
-        }),
+        body: JSON.stringify(body)
       });
-      if (res.ok) {
-        alert('✅ Service added!');
-        setForm({ title: '', name: '', description: '', image_url: '' });
-        const data = await res.json();
-        setServices(prev => [data, ...prev]);
-      }
-    } catch (error) {
-      console.error('Error adding service:', error.message);
+      const data = await res.json();
+      setServices(prev => [data, ...prev]);
+      setServiceForm({ name: '', description: '', points: '', image_url: '' });
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // Update about section
-  const updateAbout = async () => {
+  const deleteService = async id => {
+    if (!window.confirm('Delete this service?')) return;
     try {
+      await fetch(`${API}/services/${id}`, { method: 'DELETE' });
+      setServices(prev => prev.filter(s => s.id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addAboutSection = async () => {
+    try {
+      const body = {
+        ...aboutForm,
+        order_index: Number(aboutForm.order_index)
+      };
       const res = await fetch(`${API}/about`, {
-        method: 'PUT',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: about }),
+        body: JSON.stringify(body)
       });
-      if (res.ok) alert('✅ About updated!');
-    } catch (error) {
-      console.error('Error updating about:', error.message);
+      const data = await res.json();
+      setAboutSections(prev => [...prev, data]);
+      setAboutForm({ title: '', content: '', image_url: '', is_reverse: false, order_index: 0 });
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // Delete project
-  const deleteProject = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this project?')) return;
+  const deleteAboutSection = async id => {
+    if (!window.confirm('Delete this about section?')) return;
     try {
-      const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        alert('🗑️ Project deleted!');
-        setProjects(prev => prev.filter(p => p.id !== id));
-      }
-    } catch (error) {
-      console.error('Error deleting project:', error.message);
+      await fetch(`${API}/about/${id}`, { method: 'DELETE' });
+      setAboutSections(prev => prev.filter(a => a.id !== id));
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // Delete service
-  const deleteService = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this service?')) return;
-    try {
-      const res = await fetch(`${API}/services/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        alert('🗑️ Service deleted!');
-        setServices(prev => prev.filter(s => s.id !== id));
-      }
-    } catch (error) {
-      console.error('Error deleting service:', error.message);
-    }
-  };
-
+  // --- JSX ---
   return (
     <div style={{ padding: 30, fontFamily: 'Arial' }}>
       <h1>Admin Dashboard</h1>
-
       <div style={{ marginBottom: 20 }}>
         <button onClick={() => setView('projects')} style={btn}>Projects</button>
         <button onClick={() => setView('services')} style={btn}>Services</button>
         <button onClick={() => setView('about')} style={btn}>About</button>
       </div>
 
-      {/* PROJECTS */}
+      {/* Projects */}
       {view === 'projects' && (
         <div>
           <h2>Add Project</h2>
-          <input
-            style={input}
-            placeholder="Title"
-            value={form.title}
-            onChange={e => setForm({ ...form, title: e.target.value })}
-          />
-          <input
-            style={input}
-            placeholder="Image URL"
-            value={form.image_url}
-            onChange={e => setForm({ ...form, image_url: e.target.value })}
-          />
-          <textarea
-            style={textarea}
-            placeholder="Description"
-            value={form.description}
-            onChange={e => setForm({ ...form, description: e.target.value })}
-          />
+          <input style={input} placeholder="Title" value={projectForm.title} onChange={e => setProjectForm({ ...projectForm, title: e.target.value })} />
+          <input style={input} placeholder="Category" value={projectForm.category} onChange={e => setProjectForm({ ...projectForm, category: e.target.value })} />
+          <input style={input} placeholder="Image URL" value={projectForm.image_url} onChange={e => setProjectForm({ ...projectForm, image_url: e.target.value })} />
+          <input style={input} placeholder="Features (comma-separated)" value={projectForm.features} onChange={e => setProjectForm({ ...projectForm, features: e.target.value })} />
+          <input style={input} placeholder="Tech (comma-separated)" value={projectForm.tech} onChange={e => setProjectForm({ ...projectForm, tech: e.target.value })} />
+          <input style={input} placeholder="GitHub link" value={projectForm.github} onChange={e => setProjectForm({ ...projectForm, github: e.target.value })} />
+          <input style={input} placeholder="Live link" value={projectForm.live} onChange={e => setProjectForm({ ...projectForm, live: e.target.value })} />
+          <textarea style={textarea} placeholder="Description" value={projectForm.description} onChange={e => setProjectForm({ ...projectForm, description: e.target.value })} />
           <button style={btn} onClick={addProject}>Save Project</button>
 
           <h3>Existing Projects</h3>
@@ -174,9 +203,13 @@ export default function AdminDashboard() {
             <div key={p.id} style={card}>
               <img src={p.image_url} width="100" alt="" />
               <div style={{ flex: 1 }}>
-                <strong>{p.title}</strong>
+                <strong>{p.title} ({p.category})</strong>
                 <p>{p.description}</p>
-                <small>{new Date(p.date_added).toLocaleString()}</small>
+                <small>Features: {p.features.join(', ')}</small><br/>
+                <small>Tech: {p.tech.join(', ')}</small>
+                <div>
+                  <a href={p.github} target="_blank" rel="noreferrer">GitHub</a> | <a href={p.live} target="_blank" rel="noreferrer">Live</a>
+                </div>
               </div>
               <button style={deleteBtn} onClick={() => deleteProject(p.id)}>Delete</button>
             </div>
@@ -184,28 +217,14 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* SERVICES */}
+      {/* Services */}
       {view === 'services' && (
         <div>
           <h2>Add Service</h2>
-          <input
-            style={input}
-            placeholder="Name"
-            value={form.name}
-            onChange={e => setForm({ ...form, name: e.target.value })}
-          />
-          <input
-            style={input}
-            placeholder="Image URL"
-            value={form.image_url}
-            onChange={e => setForm({ ...form, image_url: e.target.value })}
-          />
-          <textarea
-            style={textarea}
-            placeholder="Description"
-            value={form.description}
-            onChange={e => setForm({ ...form, description: e.target.value })}
-          />
+          <input style={input} placeholder="Name" value={serviceForm.name} onChange={e => setServiceForm({ ...serviceForm, name: e.target.value })} />
+          <input style={input} placeholder="Image URL" value={serviceForm.image_url} onChange={e => setServiceForm({ ...serviceForm, image_url: e.target.value })} />
+          <textarea style={textarea} placeholder="Description" value={serviceForm.description} onChange={e => setServiceForm({ ...serviceForm, description: e.target.value })} />
+          <input style={input} placeholder="Points (comma-separated)" value={serviceForm.points} onChange={e => setServiceForm({ ...serviceForm, points: e.target.value })} />
           <button style={btn} onClick={addService}>Save Service</button>
 
           <h3>Existing Services</h3>
@@ -215,6 +234,7 @@ export default function AdminDashboard() {
               <div style={{ flex: 1 }}>
                 <strong>{s.name}</strong>
                 <p>{s.description}</p>
+                <ul>{s.points.map((p, i) => <li key={i}>{p}</li>)}</ul>
               </div>
               <button style={deleteBtn} onClick={() => deleteService(s.id)}>Delete</button>
             </div>
@@ -222,16 +242,31 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* ABOUT */}
+      {/* About Sections */}
       {view === 'about' && (
         <div>
-          <h2>Edit About Section</h2>
-          <textarea
-            style={{ ...textarea, height: '150px' }}
-            value={about}
-            onChange={e => setAbout(e.target.value)}
-          />
-          <button style={btn} onClick={updateAbout}>Update About</button>
+          <h2>Add About Section</h2>
+          <input style={input} placeholder="Title" value={aboutForm.title} onChange={e => setAboutForm({ ...aboutForm, title: e.target.value })} />
+          <textarea style={{ ...textarea, height: 100 }} placeholder="Content" value={aboutForm.content} onChange={e => setAboutForm({ ...aboutForm, content: e.target.value })} />
+          <input style={input} placeholder="Image URL" value={aboutForm.image_url} onChange={e => setAboutForm({ ...aboutForm, image_url: e.target.value })} />
+          <label>
+            Reverse Layout: <input type="checkbox" checked={aboutForm.is_reverse} onChange={e => setAboutForm({ ...aboutForm, is_reverse: e.target.checked })} />
+          </label>
+          <input style={input} placeholder="Order Index" type="number" value={aboutForm.order_index} onChange={e => setAboutForm({ ...aboutForm, order_index: e.target.value })} />
+          <button style={btn} onClick={addAboutSection}>Add Section</button>
+
+          <h3>Existing About Sections</h3>
+          {aboutSections.map(a => (
+            <div key={a.id} style={card}>
+              <img src={a.image_url} width="100" alt="" />
+              <div style={{ flex: 1 }}>
+                <strong>{a.title}</strong>
+                <p>{a.content}</p>
+                <small>Order: {a.order_index} | Reverse: {a.is_reverse ? 'Yes' : 'No'}</small>
+              </div>
+              <button style={deleteBtn} onClick={() => deleteAboutSection(a.id)}>Delete</button>
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -285,5 +320,5 @@ const card = {
   margin: '10px 0',
   padding: '10px',
   borderRadius: '8px',
-  alignItems: 'center'
+  alignItems: 'flex-start'
 };
