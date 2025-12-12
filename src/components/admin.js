@@ -1,32 +1,34 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from './components/Home';
-import About from './components/About';
-import Services from './components/Services';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import TermsAndConditions from './components/TermsAndConditions';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import Admin from './components/admin';
+import React, { useState, useEffect } from 'react';
+import Login from './login';
+import AdminDashboard from './AdminDashboard';
 
-function App() {
-  return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/terms" element={<TermsAndConditions />} />
-      <Route path="/privacy" element={<PrivacyPolicy />} />
+export default function Admin() {
+  const [user, setUser] = useState(null);
 
-      {/* Admin route */}
-      <Route path="/admin/*" element={<Admin />} />
+  // Check localStorage on mount to persist login
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      setUser({ token });
+    }
+  }, []);
 
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+  // Handle login success
+  const handleLogin = (data) => {
+    localStorage.setItem('adminToken', data.token);
+    setUser({ token: data.token });
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    setUser(null);
+  };
+
+  // Show login if no user, dashboard if logged in
+  return user ? (
+    <AdminDashboard token={user.token} onLogout={handleLogout} />
+  ) : (
+    <Login onLogin={handleLogin} />
   );
 }
-
-export default App;
