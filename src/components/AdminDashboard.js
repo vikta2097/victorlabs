@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const API = 'https://victorlabs.onrender.com/api';
 
-export default function AdminDashboard({ token, onLogout }) {
+export default function AdminDashboard() {
   const [view, setView] = useState('projects');
 
   // Projects, Services, About sections
@@ -50,33 +48,36 @@ export default function AdminDashboard({ token, onLogout }) {
   const fetchProjects = async () => {
     try {
       const res = await fetch(`${API}/projects`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setProjects(data);
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to fetch projects');
+      console.error('❌ Failed to fetch projects:', err);
+      alert('❌ Failed to fetch projects');
     }
   };
 
   const fetchServices = async () => {
     try {
       const res = await fetch(`${API}/services`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setServices(data);
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to fetch services');
+      console.error('❌ Failed to fetch services:', err);
+      alert('❌ Failed to fetch services');
     }
   };
 
   const fetchAbout = async () => {
     try {
       const res = await fetch(`${API}/about`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setAboutSections(data);
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to fetch about sections');
+      console.error('❌ Failed to fetch about sections:', err);
+      alert('❌ Failed to fetch about sections');
     }
   };
 
@@ -85,8 +86,8 @@ export default function AdminDashboard({ token, onLogout }) {
     try {
       const body = {
         ...projectForm,
-        features: projectForm.features.split(',').map(f => f.trim()),
-        tech: projectForm.tech.split(',').map(t => t.trim()),
+        features: projectForm.features ? projectForm.features.split(',').map(f => f.trim()) : [],
+        tech: projectForm.tech ? projectForm.tech.split(',').map(t => t.trim()) : [],
         date_added: new Date()
       };
       const res = await fetch(`${API}/projects`, {
@@ -94,6 +95,9 @@ export default function AdminDashboard({ token, onLogout }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
       setProjects(prev => [data, ...prev]);
       setProjectForm({
@@ -106,22 +110,23 @@ export default function AdminDashboard({ token, onLogout }) {
         github: '',
         live: ''
       });
-      toast.success('✅ Project added successfully');
+      alert('✅ Project added successfully');
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to add project');
+      console.error('❌ Failed to add project:', err);
+      alert('❌ Failed to add project');
     }
   };
 
   const deleteProject = async id => {
     if (!window.confirm('Delete this project?')) return;
     try {
-      await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API}/projects/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setProjects(prev => prev.filter(p => p.id !== id));
-      toast.success('✅ Project deleted successfully');
+      alert('✅ Project deleted successfully');
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to delete project');
+      console.error('❌ Failed to delete project:', err);
+      alert('❌ Failed to delete project');
     }
   };
 
@@ -129,79 +134,77 @@ export default function AdminDashboard({ token, onLogout }) {
     try {
       const body = {
         ...serviceForm,
-        points: serviceForm.points.split(',').map(p => p.trim())
+        points: serviceForm.points ? serviceForm.points.split(',').map(p => p.trim()) : []
       };
       const res = await fetch(`${API}/services`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
       setServices(prev => [data, ...prev]);
       setServiceForm({ name: '', description: '', points: '', image_url: '' });
-      toast.success('✅ Service added successfully');
+      alert('✅ Service added successfully');
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to add service');
+      console.error('❌ Failed to add service:', err);
+      alert('❌ Failed to add service');
     }
   };
 
   const deleteService = async id => {
     if (!window.confirm('Delete this service?')) return;
     try {
-      await fetch(`${API}/services/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API}/services/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setServices(prev => prev.filter(s => s.id !== id));
-      toast.success('✅ Service deleted successfully');
+      alert('✅ Service deleted successfully');
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to delete service');
+      console.error('❌ Failed to delete service:', err);
+      alert('❌ Failed to delete service');
     }
   };
 
   const addAboutSection = async () => {
     try {
-      const body = {
-        ...aboutForm,
-        order_index: Number(aboutForm.order_index)
-      };
+      const body = { ...aboutForm, order_index: Number(aboutForm.order_index) };
       const res = await fetch(`${API}/about`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
       setAboutSections(prev => [...prev, data]);
       setAboutForm({ title: '', content: '', image_url: '', is_reverse: false, order_index: 0 });
-      toast.success('✅ About section added successfully');
+      alert('✅ About section added successfully');
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to add about section');
+      console.error('❌ Failed to add about section:', err);
+      alert('❌ Failed to add about section');
     }
   };
 
   const deleteAboutSection = async id => {
     if (!window.confirm('Delete this about section?')) return;
     try {
-      await fetch(`${API}/about/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API}/about/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setAboutSections(prev => prev.filter(a => a.id !== id));
-      toast.success('✅ About section deleted successfully');
+      alert('✅ About section deleted successfully');
     } catch (err) {
-      console.error(err);
-      toast.error('❌ Failed to delete about section');
+      console.error('❌ Failed to delete about section:', err);
+      alert('❌ Failed to delete about section');
     }
   };
 
   // --- JSX ---
   return (
     <div style={{ padding: 30, fontFamily: 'Arial' }}>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Admin Dashboard</h1>
-        <button style={{ ...btn, background: '#6c757d' }} onClick={onLogout}>
-          Logout
-        </button>
-      </div>
-
+      <h1>Admin Dashboard</h1>
       <div style={{ marginBottom: 20 }}>
         <button onClick={() => setView('projects')} style={btn}>Projects</button>
         <button onClick={() => setView('services')} style={btn}>Services</button>
@@ -229,10 +232,10 @@ export default function AdminDashboard({ token, onLogout }) {
               <div style={{ flex: 1 }}>
                 <strong>{p.title} ({p.category})</strong>
                 <p>{p.description}</p>
-                <small>Features: {p.features.join(', ')}</small><br/>
-                <small>Tech: {p.tech.join(', ')}</small>
+                <small>Features: {(p.features || []).join(', ')}</small><br/>
+                <small>Tech: {(p.tech || []).join(', ')}</small>
                 <div>
-                  <a href={p.github} target="_blank" rel="noreferrer">GitHub</a> | <a href={p.live} target="_blank" rel="noreferrer">Live</a>
+                  {p.github && <a href={p.github} target="_blank" rel="noreferrer">GitHub</a>} {p.live && '|'} {p.live && <a href={p.live} target="_blank" rel="noreferrer">Live</a>}
                 </div>
               </div>
               <button style={deleteBtn} onClick={() => deleteProject(p.id)}>Delete</button>
@@ -258,7 +261,7 @@ export default function AdminDashboard({ token, onLogout }) {
               <div style={{ flex: 1 }}>
                 <strong>{s.name}</strong>
                 <p>{s.description}</p>
-                <ul>{s.points.map((p, i) => <li key={i}>{p}</li>)}</ul>
+                <ul>{(s.points || []).map((p, i) => <li key={i}>{p}</li>)}</ul>
               </div>
               <button style={deleteBtn} onClick={() => deleteService(s.id)}>Delete</button>
             </div>
