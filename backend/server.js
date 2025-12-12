@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import pkg from 'pg';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 import authRoutes from './routes/auth.js';
-
 
 dotenv.config();
 const { Pool } = pkg;
@@ -37,9 +37,38 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 
+// ===== CREATE DEFAULT ADMIN =====
+const ensureDefaultAdmin = async () => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM usercredentials WHERE role = 'admin' LIMIT 1"
+    );
+
+    if (result.rows.length === 0) {
+      console.log("⚠️ Creating default admin...");
+
+      const hash = await bcrypt.hash("vikta2097", 10);
+
+      await pool.query(
+        "INSERT INTO usercredentials (fullname, email, password_hash, role) VALUES ($1, $2, $3, $4)",
+        ["System Admin", "thigamwangi2027@gmail.com", hash, "admin"]
+      );
+
+      console.log("✅ Default admin created");
+    } else {
+      console.log("✅ Admin already exists");
+    }
+  } catch (error) {
+    console.error("❌ Error creating default admin:", error);
+  }
+};
+
+// Call it at startup
+ensureDefaultAdmin();
+
+
 // --- API ROUTES ---
 
-// ✅ Fetch About Info
 app.get('/api/about', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM about LIMIT 1');
@@ -50,7 +79,7 @@ app.get('/api/about', async (req, res) => {
   }
 });
 
-// ✅ Update About Info
+// Update About Info
 app.put('/api/about', async (req, res) => {
   try {
     const { content } = req.body;
@@ -62,7 +91,7 @@ app.put('/api/about', async (req, res) => {
   }
 });
 
-// ✅ Fetch All Projects
+// Fetch All Projects
 app.get('/api/projects', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM projects ORDER BY id DESC');
@@ -73,7 +102,7 @@ app.get('/api/projects', async (req, res) => {
   }
 });
 
-// ✅ Add New Project
+// Add New Project
 app.post('/api/projects', async (req, res) => {
   try {
     const { title, description, image_url, date_added } = req.body;
@@ -89,7 +118,7 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
-// ✅ Update Existing Project
+// Update Project
 app.put('/api/projects/:id', async (req, res) => {
   try {
     const { title, description, image_url } = req.body;
@@ -105,7 +134,7 @@ app.put('/api/projects/:id', async (req, res) => {
   }
 });
 
-// ✅ Delete Project
+// Delete Project
 app.delete('/api/projects/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -117,7 +146,7 @@ app.delete('/api/projects/:id', async (req, res) => {
   }
 });
 
-// ✅ Fetch All Services
+// Fetch All Services
 app.get('/api/services', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM services ORDER BY id DESC');
@@ -128,7 +157,7 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
-// ✅ Add New Service
+// Add Service
 app.post('/api/services', async (req, res) => {
   try {
     const { name, description, image_url } = req.body;
@@ -144,7 +173,7 @@ app.post('/api/services', async (req, res) => {
   }
 });
 
-// ✅ Update Existing Service
+// Update Service
 app.put('/api/services/:id', async (req, res) => {
   try {
     const { name, description, image_url } = req.body;
@@ -160,7 +189,7 @@ app.put('/api/services/:id', async (req, res) => {
   }
 });
 
-// ✅ Delete Service
+// Delete Service
 app.delete('/api/services/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -172,14 +201,16 @@ app.delete('/api/services/:id', async (req, res) => {
   }
 });
 
-// --- ROOT ENDPOINT (for test) ---
+
+// --- ROOT ENDPOINT ---
 app.get('/', (req, res) => {
   res.send('🚀 Portfolio API running successfully!');
 });
 
-// --- START SERVER ---
-const PORT = process.env.PORT || 5000;
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API route test successful' });
 });
+
+// --- START SERVER ---
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
