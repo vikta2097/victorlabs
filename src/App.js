@@ -9,6 +9,8 @@ import Contact from './components/Contact';
 import TermsAndConditions from './components/TermsAndConditions';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Admin from './components/Admin';
+import './styles/global.css';
+
 
 function App() {
   return (
