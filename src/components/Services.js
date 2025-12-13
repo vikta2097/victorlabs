@@ -117,7 +117,7 @@ export default function Services() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch(`${API_BASE}/services`);
+        const res = await fetch(`${API_BASE}/api/services`);
         if (!res.ok) throw new Error("Failed to fetch services");
         const data = await res.json();
 
