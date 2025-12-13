@@ -149,35 +149,36 @@ app.post('/api/projects', verifyToken, verifyAdmin, async (req, res) => {
       date_added
     } = req.body;
 
-    // Convert features & tech arrays to comma-separated strings
-    const featuresStr = Array.isArray(features) ? features.join(', ') : features || '';
-    const techStr = Array.isArray(tech) ? tech.join(', ') : tech || '';
+    // Convert arrays to JSON strings for PostgreSQL JSON/JSONB columns
+    const featuresJson = Array.isArray(features) ? JSON.stringify(features) : '[]';
+    const techJson = Array.isArray(tech) ? JSON.stringify(tech) : '[]';
 
     const result = await pool.query(
       `INSERT INTO projects 
        (title, category, description, image_url, features, tech, github, live, date_added)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
        RETURNING *`,
       [
         title,
         category,
         description,
         image_url || null,
-        featuresStr,
-        techStr,
+        featuresJson,
+        techJson,
         github || null,
         live || null,
         date_added || new Date()
       ]
     );
 
+    console.log('✅ Project added successfully:', result.rows[0]);
     res.json(result.rows[0]);
   } catch (error) {
-    // Log full error for debugging
-    console.error('Error adding project:', error);
+    console.error('❌ Error adding project:', error); // Full error logging
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 
 app.put('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
@@ -194,11 +195,10 @@ app.put('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
       live
     } = req.body;
 
-    // Convert features & tech arrays to comma-separated strings
-    const featuresStr = Array.isArray(features) ? features.join(', ') : features || '';
-    const techStr = Array.isArray(tech) ? tech.join(', ') : tech || '';
+    const featuresJson = Array.isArray(features) ? JSON.stringify(features) : '[]';
+    const techJson = Array.isArray(tech) ? JSON.stringify(tech) : '[]';
 
-    await pool.query(
+    const result = await pool.query(
       `UPDATE projects
        SET title=$1,
            category=$2,
@@ -208,27 +208,34 @@ app.put('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
            tech=$6,
            github=$7,
            live=$8
-       WHERE id=$9`,
+       WHERE id=$9
+       RETURNING *`,
       [
         title,
         category,
         description,
         image_url || null,
-        featuresStr,
-        techStr,
+        featuresJson,
+        techJson,
         github || null,
         live || null,
         id
       ]
     );
 
-    res.json({ success: true, message: 'Project updated successfully.' });
+    if (result.rows.length === 0) {
+      console.warn(`⚠️ Project with id ${id} not found.`);
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    console.log('✅ Project updated successfully:', result.rows[0]);
+    res.json(result.rows[0]);
   } catch (error) {
-    // Log full error for debugging
-    console.error('Error updating project:', error);
+    console.error('❌ Error updating project:', error); // Full error logging
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 
 app.delete('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
