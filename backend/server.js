@@ -250,9 +250,12 @@ app.delete('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
 });
 
 // --- SERVICES (PUBLIC GET, PROTECTED POST/PUT/DELETE) ---
+// ===== GET ALL SERVICES =====
 app.get('/api/services', async (req, res) => {
+  console.log('🟢 GET /api/services called');
   try {
     const result = await pool.query('SELECT * FROM services ORDER BY id DESC');
+    console.log(`Fetched ${result.rows.length} services`);
     res.json(result.rows);
   } catch (error) {
     console.error('Error fetching services:', error.message);
@@ -260,7 +263,9 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
+// ===== ADD NEW SERVICE =====
 app.post('/api/services', verifyToken, verifyAdmin, async (req, res) => {
+  console.log('🟢 POST /api/services called with body:', req.body);
   try {
     const { name, description, points, image_url } = req.body;
     const result = await pool.query(
@@ -268,6 +273,7 @@ app.post('/api/services', verifyToken, verifyAdmin, async (req, res) => {
        VALUES ($1,$2,$3,$4) RETURNING *`,
       [name, description, points || [], image_url]
     );
+    console.log('Added new service:', result.rows[0]);
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Error adding service:', error.message);
@@ -275,33 +281,40 @@ app.post('/api/services', verifyToken, verifyAdmin, async (req, res) => {
   }
 });
 
+// ===== UPDATE SERVICE =====
 app.put('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
+  console.log(`🟢 PUT /api/services/${req.params.id} called with body:`, req.body);
   try {
     const { name, description, points, image_url } = req.body;
     const { id } = req.params;
-    await pool.query(
+    const result = await pool.query(
       `UPDATE services
        SET name=$1, description=$2, points=$3, image_url=$4
-       WHERE id=$5`,
+       WHERE id=$5 RETURNING *`,
       [name, description, points || [], image_url, id]
     );
-    res.json({ success: true, message: 'Service updated successfully.' });
+    console.log('Updated service:', result.rows[0]);
+    res.json({ success: true, message: 'Service updated successfully.', service: result.rows[0] });
   } catch (error) {
     console.error('Error updating service:', error.message);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
+// ===== DELETE SERVICE =====
 app.delete('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
+  console.log(`🟢 DELETE /api/services/${req.params.id} called`);
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM services WHERE id=$1', [id]);
+    console.log(`Deleted service with id ${id}`);
     res.json({ success: true, message: 'Service deleted successfully' });
   } catch (error) {
     console.error('Error deleting service:', error.message);
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 // --- ROOT & TEST ---
 app.get('/', (req, res) => res.send('🚀 Portfolio API running successfully!'));
