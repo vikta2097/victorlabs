@@ -263,7 +263,8 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
-// ===== ADD NEW SERVICE =====
+
+// ===== ADD SERVICE =====
 app.post('/api/services', verifyToken, verifyAdmin, async (req, res) => {
   console.log('🟢 POST /api/services called with body:', req.body);
   try {
@@ -271,7 +272,7 @@ app.post('/api/services', verifyToken, verifyAdmin, async (req, res) => {
     const result = await pool.query(
       `INSERT INTO services (name, description, points, image_url)
        VALUES ($1,$2,$3,$4) RETURNING *`,
-      [name, description, points || [], image_url]
+      [name, description, JSON.stringify(points || []), image_url] // <-- stringify points
     );
     console.log('Added new service:', result.rows[0]);
     res.json(result.rows[0]);
@@ -291,7 +292,7 @@ app.put('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
       `UPDATE services
        SET name=$1, description=$2, points=$3, image_url=$4
        WHERE id=$5 RETURNING *`,
-      [name, description, points || [], image_url, id]
+      [name, description, JSON.stringify(points || []), image_url, id] // <-- stringify points
     );
     console.log('Updated service:', result.rows[0]);
     res.json({ success: true, message: 'Service updated successfully.', service: result.rows[0] });
@@ -300,6 +301,7 @@ app.put('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 // ===== DELETE SERVICE =====
 app.delete('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
