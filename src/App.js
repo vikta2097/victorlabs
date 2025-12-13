@@ -8,7 +8,7 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import TermsAndConditions from './components/TermsAndConditions';
 import PrivacyPolicy from './components/PrivacyPolicy';
-import Admin from './components/Admin.js';
+import Admin from './components/Admin';
 
 function App() {
   return (
