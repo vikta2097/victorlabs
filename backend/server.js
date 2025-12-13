@@ -4,6 +4,7 @@ import pkg from 'pg';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 import authRoutes from './routes/auth.js';
+import { verifyToken, verifyAdmin } from './middleware/auth.js';
 
 dotenv.config();
 const { Pool } = pkg;
@@ -69,7 +70,7 @@ const ensureDefaultAdmin = async () => {
 // Call it at startup
 ensureDefaultAdmin();
 
-// --- ABOUT SECTIONS ---
+// --- ABOUT SECTIONS (PUBLIC GET, PROTECTED POST/PUT/DELETE) ---
 app.get('/api/about', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM about ORDER BY order_index ASC');
@@ -80,7 +81,7 @@ app.get('/api/about', async (req, res) => {
   }
 });
 
-app.post('/api/about', async (req, res) => {
+app.post('/api/about', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { title, content, image_url, is_reverse, order_index } = req.body;
     const result = await pool.query(
@@ -95,7 +96,7 @@ app.post('/api/about', async (req, res) => {
   }
 });
 
-app.put('/api/about/:id', async (req, res) => {
+app.put('/api/about/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { title, content, image_url, is_reverse, order_index } = req.body;
     const { id } = req.params;
@@ -112,7 +113,7 @@ app.put('/api/about/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/about/:id', async (req, res) => {
+app.delete('/api/about/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM about WHERE id=$1', [id]);
@@ -123,7 +124,7 @@ app.delete('/api/about/:id', async (req, res) => {
   }
 });
 
-// --- PROJECTS ---
+// --- PROJECTS (PUBLIC GET, PROTECTED POST/PUT/DELETE) ---
 app.get('/api/projects', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM projects ORDER BY id DESC');
@@ -134,7 +135,7 @@ app.get('/api/projects', async (req, res) => {
   }
 });
 
-app.post('/api/projects', async (req, res) => {
+app.post('/api/projects', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const {
       title, category, description, image_url, features, tech, github, live, date_added
@@ -158,7 +159,7 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
-app.put('/api/projects/:id', async (req, res) => {
+app.put('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { title, category, description, image_url, features, tech, github, live } = req.body;
     const { id } = req.params;
@@ -177,7 +178,7 @@ app.put('/api/projects/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/projects/:id', async (req, res) => {
+app.delete('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM projects WHERE id=$1', [id]);
@@ -188,7 +189,7 @@ app.delete('/api/projects/:id', async (req, res) => {
   }
 });
 
-// --- SERVICES ---
+// --- SERVICES (PUBLIC GET, PROTECTED POST/PUT/DELETE) ---
 app.get('/api/services', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM services ORDER BY id DESC');
@@ -199,7 +200,7 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
-app.post('/api/services', async (req, res) => {
+app.post('/api/services', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { name, description, points, image_url } = req.body;
     const result = await pool.query(
@@ -214,7 +215,7 @@ app.post('/api/services', async (req, res) => {
   }
 });
 
-app.put('/api/services/:id', async (req, res) => {
+app.put('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { name, description, points, image_url } = req.body;
     const { id } = req.params;
@@ -231,7 +232,7 @@ app.put('/api/services/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/services/:id', async (req, res) => {
+app.delete('/api/services/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM services WHERE id=$1', [id]);

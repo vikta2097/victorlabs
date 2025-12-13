@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 import Home from './components/Home';
 import About from './components/About';
@@ -8,17 +7,9 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import TermsAndConditions from './components/TermsAndConditions';
 import PrivacyPolicy from './components/PrivacyPolicy';
-import Admin from './components/admin';
+import Admin from './components/Admin';
 
 function App() {
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
-
-  // Check token on mount
-  useEffect(() => {
-    const token = localStorage.getItem("adminToken");
-    if (token) setIsAdminAuthenticated(true);
-  }, []);
-
   return (
     <Routes>
       {/* Public routes */}
@@ -30,13 +21,8 @@ function App() {
       <Route path="/terms" element={<TermsAndConditions />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
 
-      {/* Admin route */}
-      <Route
-        path="/admin/*"
-        element={
-          isAdminAuthenticated ? <Admin /> : <Navigate to="/admin/login" replace />
-        }
-      />
+      {/* Admin route - no authentication check needed, Admin.js handles it internally */}
+      <Route path="/admin/*" element={<Admin />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
