@@ -138,45 +138,98 @@ app.get('/api/projects', async (req, res) => {
 app.post('/api/projects', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const {
-      title, category, description, image_url, features, tech, github, live, date_added
+      title,
+      category,
+      description,
+      image_url,
+      features,
+      tech,
+      github,
+      live,
+      date_added
     } = req.body;
+
+    // Convert features & tech arrays to comma-separated strings
+    const featuresStr = Array.isArray(features) ? features.join(', ') : features || '';
+    const techStr = Array.isArray(tech) ? tech.join(', ') : tech || '';
 
     const result = await pool.query(
       `INSERT INTO projects 
        (title, category, description, image_url, features, tech, github, live, date_added)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+       RETURNING *`,
       [
-        title, category, description, image_url,
-        features || [], tech || [], github || null, live || null,
+        title,
+        category,
+        description,
+        image_url || null,
+        featuresStr,
+        techStr,
+        github || null,
+        live || null,
         date_added || new Date()
       ]
     );
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error('Error adding project:', error.message);
+    // Log full error for debugging
+    console.error('Error adding project:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
+
 app.put('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
-    const { title, category, description, image_url, features, tech, github, live } = req.body;
     const { id } = req.params;
+    const {
+      title,
+      category,
+      description,
+      image_url,
+      features,
+      tech,
+      github,
+      live
+    } = req.body;
+
+    // Convert features & tech arrays to comma-separated strings
+    const featuresStr = Array.isArray(features) ? features.join(', ') : features || '';
+    const techStr = Array.isArray(tech) ? tech.join(', ') : tech || '';
 
     await pool.query(
       `UPDATE projects
-       SET title=$1, category=$2, description=$3, image_url=$4, features=$5, tech=$6, github=$7, live=$8
+       SET title=$1,
+           category=$2,
+           description=$3,
+           image_url=$4,
+           features=$5,
+           tech=$6,
+           github=$7,
+           live=$8
        WHERE id=$9`,
-      [title, category, description, image_url, features || [], tech || [], github || null, live || null, id]
+      [
+        title,
+        category,
+        description,
+        image_url || null,
+        featuresStr,
+        techStr,
+        github || null,
+        live || null,
+        id
+      ]
     );
 
     res.json({ success: true, message: 'Project updated successfully.' });
   } catch (error) {
-    console.error('Error updating project:', error.message);
+    // Log full error for debugging
+    console.error('Error updating project:', error);
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 app.delete('/api/projects/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {

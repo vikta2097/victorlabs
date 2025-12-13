@@ -108,59 +108,65 @@ export default function AdminDashboard({ token, onLogout }) {
 
   // ========== PROJECT CRUD ==========
   const addProject = async () => {
-    if (!projectForm.title || !projectForm.category) {
-      alert('⚠️ Title and Category are required');
-      return;
+  if (!projectForm.title || !projectForm.category) {
+    alert('⚠️ Title and Category are required');
+    return;
+  }
+
+  setLoading(true);
+  try {
+    // Convert features/tech to arrays first
+    const body = {
+      ...projectForm,
+      features: projectForm.features
+        ? projectForm.features.split(',').map(f => f.trim()).filter(Boolean)
+        : [],
+      tech: projectForm.tech
+        ? projectForm.tech.split(',').map(t => t.trim()).filter(Boolean)
+        : [],
+      date_added: new Date().toISOString()
+    };
+
+    const res = await fetch(`${API_BASE}/api/projects`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (handleAuthError(res.status)) return;
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || `HTTP ${res.status}`);
     }
 
-    setLoading(true);
-    try {
-      const body = {
-        ...projectForm,
-        features: projectForm.features 
-          ? projectForm.features.split(',').map(f => f.trim()).filter(Boolean) 
-          : [],
-        tech: projectForm.tech 
-          ? projectForm.tech.split(',').map(t => t.trim()).filter(Boolean) 
-          : [],
-        date_added: new Date().toISOString()
-      };
+    const data = await res.json();
+    setProjects(prev => [data, ...prev]);
 
-      const res = await fetch(`${API_BASE}/api/projects`, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(body)
-      });
+    // Reset form
+    setProjectForm({
+      title: '',
+      category: '',
+      description: '',
+      image_url: '',
+      features: '',
+      tech: '',
+      github: '',
+      live: ''
+    });
 
-      if (handleAuthError(res.status)) return;
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || `HTTP ${res.status}`);
-      }
+    alert('✅ Project added successfully!');
+  } catch (err) {
+    console.error('❌ Failed to add project:', err);
+    alert('❌ Failed to add project: ' + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
-      const data = await res.json();
-      setProjects(prev => [data, ...prev]);
-      
-      // Reset form
-      setProjectForm({
-        title: '',
-        category: '',
-        description: '',
-        image_url: '',
-        features: '',
-        tech: '',
-        github: '',
-        live: ''
-      });
-      
-      alert('✅ Project added successfully!');
-    } catch (err) {
-      console.error('❌ Failed to add project:', err);
-      alert('❌ Failed to add project: ' + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const deleteProject = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project?')) return;
