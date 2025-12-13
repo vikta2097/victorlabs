@@ -42,7 +42,7 @@ const staticProjects = [
     ],
     tech: ["HTML5", "CSS3", "JavaScript"],
     status: "Completed",
-    timeline: "Mar 2024– Apr 2024",
+    timeline: "Mar 2024 – Apr 2024",
     github: "https://github.com/yourusername/portfolio",
     live: "https://victorlabs.netlify.app/",
     caseStudy: "#",
@@ -64,7 +64,7 @@ const staticProjects = [
     ],
     tech: ["React", "Node.js/Express", "Stripe API", "MySQL"],
     status: "Prototype",
-    timeline: "Aug 2024– Sep 2024",
+    timeline: "Aug 2024 – Sep 2024",
     github: "https://github.com/yourusername/business-site",
     live: "https://vikta2097.github.io/project",
     caseStudy: "#",
@@ -79,26 +79,38 @@ export default function Projects() {
 
   // --- Fetch live projects from backend ---
   useEffect(() => {
-    fetch(`${API_BASE}/api/projects`)
-      .then((res) => res.json())
-      .then((data) => {
-        setDbProjects(data);
-        setLoading(false);
-      })
-      .catch((err) => {
+    const fetchProjects = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/projects`);
+        const data = await res.json();
+
+        // Normalize features & tech to arrays
+        const normalized = data.map((p) => ({
+          ...p,
+          features: typeof p.features === "string"
+            ? p.features.split(",").map((f) => f.trim())
+            : Array.isArray(p.features) ? p.features : [],
+          tech: typeof p.tech === "string"
+            ? p.tech.split(",").map((t) => t.trim())
+            : Array.isArray(p.tech) ? p.tech : [],
+        }));
+
+        setDbProjects(normalized);
+      } catch (err) {
         console.error("Error fetching projects:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchProjects();
   }, []);
 
-  // --- Merge static + database projects ---
+  // Merge static + database projects
   const allProjects = [...staticProjects, ...dbProjects];
 
   return (
-    <section
-      className="projects-section page projects"
-      aria-labelledby="projects-title"
-    >
+    <section className="projects-section page projects" aria-labelledby="projects-title">
       <h2 id="projects-title">Projects</h2>
 
       {loading && <p>Loading live projects...</p>}
@@ -108,7 +120,7 @@ export default function Projects() {
           <article key={idx} className="project-card" role="listitem">
             <div className="project-media">
               <img
-                src={project.image || project.image_url}
+                src={project.image || project.image_url || "/fallback.jpg"}
                 alt={`${project.title} screenshot`}
                 loading="lazy"
                 onError={(e) => (e.target.src = "/fallback.jpg")}
@@ -116,13 +128,11 @@ export default function Projects() {
             </div>
 
             <div className="project-body">
-              <span className="project-category">
-                {project.category || "Web App"}
-              </span>
+              <span className="project-category">{project.category || "Web App"}</span>
               <h3 className="project-title">{project.title}</h3>
               <p className="project-desc">{project.description}</p>
 
-              {project.features && (
+              {project.features.length > 0 && (
                 <ul className="project-features">
                   {project.features.map((f, i) => (
                     <li key={i}>{f}</li>
@@ -130,12 +140,10 @@ export default function Projects() {
                 </ul>
               )}
 
-              {project.tech && (
+              {project.tech.length > 0 && (
                 <ul className="project-tech">
                   {project.tech.map((t, i) => (
-                    <li key={i} className="tech-tag">
-                      {t}
-                    </li>
+                    <li key={i} className="tech-tag">{t}</li>
                   ))}
                 </ul>
               )}
